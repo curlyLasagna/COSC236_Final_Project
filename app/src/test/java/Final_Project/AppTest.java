@@ -7,8 +7,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
+    @Test void initClasses() {
+        // Player playerTest = new Player();
+        // Location locationTest = new Location();
+        // Entity entityTest = new Entity();
+        //
+        // assertNotNull(Player(), "Good job Katie");
+        // assertNotNull(Location(), "Congratulations!");
+        // assertNotNull(Entity(), "You don't need me. You got it 😜");
         // assertNotNull(classUnderTest.main(), "app should have a greeting");
     }
 }
