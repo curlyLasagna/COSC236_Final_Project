@@ -37,13 +37,27 @@ public class GameState {
         currentLocation.name = "Front [porch]";
         currentLocation.description = "You are on the front pourch of the house. The red front [door] is waiting to be knocked on and there is a welcome [mat] at your feet.";
 
-        // Create a demo item.
-        Item mat = new Item();
-        mat.name = "Mat";
-        mat.description = "There is a welcome mat here. This is a special mat.";
 
+        // Create Items:
+        // Create a lighter item.
+        Item lighter = new Item();
+        lighter.name = "Lighter";
+        lighter.description = "You have a white lighter";
+
+        // Create a stick item
+        Item stick = new Item();
+        stick.name = "Stick";
+        stick.description = "You have a stick that you picked up from the ground";
+
+        // create a wallet item
+        Item wallet = new Item();
+        wallet.name = "Wallet";
+        wallet.description = "You reach in your pocket and find your wallet";
+        
         //Add item to list of nouns so our command system knows it exists.
-        commandSystem.addNoun(mat.name);
+        commandSystem.addNoun(lighter.name);
+        commandSystem.addNoun(stick.name);
+        commandSystem.addNoun(wallet.name);
 
         /* 
             Once the commandSystem knows about the item, we need to code what happens with each of the commands that can happen with the item.

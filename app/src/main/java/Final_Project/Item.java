@@ -12,6 +12,7 @@ public class Item {
     String name;
     boolean embeded;
     String shortDesc;
+    int gas = 0;
     String description;
     ArrayList<String> status = new ArrayList<String>();
 
@@ -23,7 +24,21 @@ public class Item {
         shortDesc = d;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String getDesc() {
         return description;
     }
 }
+
+
+    class Lighter extends Item {
+        int gas = 0;
+        
+    }
+
+    class Wallet extends Item {
+
+    }

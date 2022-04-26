@@ -85,6 +85,7 @@ public class CommandSystem {
     // When a command is a Verb followed by two nouns, this method controls the
     // result.
     public void executeVerbNounNoun(String string, String string2, String string3) {
+    // 3 nested switch statements
 
     }
 

@@ -7,4 +7,12 @@ public class Location {
 
     public Location(){};
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDesc() {
+        return description;
+    }
+
 }
