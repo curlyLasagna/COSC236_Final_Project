@@ -9,13 +9,14 @@ Based on starter code first developed by Prof. Dastyni Loksa
 This class represents an item that can be interacted with by the player.  
 */
 public class Item {
-    private String 
-      name,
-      shortDesc,
-      description;
+    private
+      String name;
+      String shortDesc;
+      String description;
 
     Item () {};
     
+
     Item(String name, String description) {
       this.name = name;
       this.description = description;
@@ -50,6 +51,11 @@ class Stick extends Item {
   private String name = "Stick";
   int durability = 3;
 
+  Stick(String name, String description, int durability) {
+      this.name = name;
+      this.description = description;
+      this.durability = durability;
+  }
 }
 
 class Card extends Item {

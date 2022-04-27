@@ -64,9 +64,9 @@ public class GameState {
         System.out.println(locations);
 
         // Init player items
-        Lighter lighter = new Lighter();
-        Stick stick = new Stick();
-        Wallet wallet = new Wallet();
+        // Lighter lighter = new Lighter();
+        // Stick stick = new Stick();
+        // Wallet wallet = new Wallet();
 
         //Add item to list of nouns so our command system knows it exists.
         // commandSystem.addNoun(lighter.getName());
