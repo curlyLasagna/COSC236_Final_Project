@@ -13,4 +13,29 @@ public class Entity {
     }
 }
 
+class Scary extends Entity {
+  int aggression = 0;
+  
+  Scary() {
 
+  }
+
+}
+
+class Normal extends Entity {
+  int fear = 0;
+
+  Normal() {
+
+  }
+
+}
+
+class Tripyy extends Entity {
+  int integrity = 100;
+
+  Tripyy() {
+
+  }
+
+}

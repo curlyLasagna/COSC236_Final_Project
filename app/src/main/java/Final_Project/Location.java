@@ -5,8 +5,15 @@ public class Location {
     String 
     name,
     description;
+    Entity entityInLocation;
 
-    public Location(){};
+    public Location() {
+
+    };
+
+    public Location(String name, String description, Entity entity){
+      entityInLocation = entity;
+    };
 
     public String getName() {
         return name;
@@ -16,4 +23,11 @@ public class Location {
         return description;
     }
 
+    public Entity getEntityInLocation() {
+      return entityInLocation;
+    }
+
 }
+
+
+

@@ -49,9 +49,12 @@ class Wallet extends Item {
 class Stick extends Item {
   private String name = "Stick";
   int durability = 3;
+
 }
 
 class Card extends Item {
   private String name = "Card";
   private boolean accessHome = true;
+
+
 }
