@@ -17,12 +17,9 @@ repositories {
 }
 
 dependencies {
-    // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
-    // This dependency is used by the application.
+    implementation 'org.jgrapht:jgrapht-core:1.5.0'
     implementation 'com.google.guava:guava:30.1.1-jre'
-    // https://mvnrepository.com/artifact/org.jgrapht/jgrapht
-    implementation group: 'org.jgrapht', name: 'jgrapht', version: '1.1.0', ext: 'pom'
     implementation 'com.moandjiezana.toml:toml4j:0.7.2'
 }
 
@@ -39,11 +36,3 @@ tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
-
-tasks.register('line') {
-    doLast {
-        println "Are you a 45-degree angle? Because you're acute-y!"
-    }
-}
-
-tasks.named("build") { finalizedBy("line")}

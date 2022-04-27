@@ -10,11 +10,13 @@ state of the game.
 This starter code is designed for the verbs to be stored in the commandSystem.
 
 */
-
 package Final_Project;
+import com.google.common.graph.*;
+
 public class GameState {
-    Location currentLocation;
     CommandSystem commandSystem;
+    MutableValueGraph<Location, Integer> locations 
+      = ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
     
     public static int DISPLAY_WIDTH = 80;
 
@@ -28,36 +30,48 @@ public class GameState {
 
         You should do better!
     */
-    public GameState(){
+    public GameState() {
         commandSystem = new CommandSystem(this);
-        
-        // Create first (starting) location 
-        // (and store it in currentLocation so I can always referece where the player is easily)
-        currentLocation = new Location();
-        currentLocation.name = "Front [porch]";
-        currentLocation.description = "You are on the front pourch of the house. The red front [door] is waiting to be knocked on and there is a welcome [mat] at your feet.";
 
+        // Location nodes
+        Location 
+          river, convenienceStore, startingPoint,
+          campFire, fallenTree, home, opening, roadFork;
 
-        // Create Items:
-        // Create a lighter item.
-        Item lighter = new Item();
-        lighter.name = "Lighter";
-        lighter.description = "You have a white lighter";
+        // this line longer than chick fil a
+        river = convenienceStore = startingPoint = campFire = fallenTree = home = opening = roadFork = new Location();
 
-        // Create a stick item
-        Item stick = new Item();
-        stick.name = "Stick";
-        stick.description = "You have a stick that you picked up from the ground";
+        // Add Location object as a node in the graph
+        locations.addNode(river);       
+        locations.addNode(convenienceStore);       
+        locations.addNode(startingPoint);       
+        locations.addNode(campFire);       
+        locations.addNode(fallenTree);       
+        locations.addNode(home);       
+        locations.addNode(opening);       
+        locations.addNode(roadFork);
 
-        // create a wallet item
-        Item wallet = new Item();
-        wallet.name = "Wallet";
-        wallet.description = "You reach in your pocket and find your wallet";
-        
+        // Edge values represent how much toxicity is taxed when traversed 
+        locations.putEdgeValue(startingPoint, river, 5);
+        locations.putEdgeValue(startingPoint, fallenTree, 3);
+        locations.putEdgeValue(startingPoint, roadFork, 10);
+        locations.putEdgeValue(fallenTree, opening, 2);
+        locations.putEdgeValue(fallenTree, home, 14);
+        locations.putEdgeValue(roadFork, home, 6);
+        locations.putEdgeValue(roadFork, convenienceStore, 12);
+        locations.putEdgeValue(opening, campFire, 5);
+
+        System.out.println(locations);
+
+        // Init player items
+        Lighter lighter = new Lighter();
+        Stick stick = new Stick();
+        Wallet wallet = new Wallet();
+
         //Add item to list of nouns so our command system knows it exists.
-        commandSystem.addNoun(lighter.name);
-        commandSystem.addNoun(stick.name);
-        commandSystem.addNoun(wallet.name);
+        // commandSystem.addNoun(lighter.getName());
+        // commandSystem.addNoun(stick.getName());
+        // commandSystem.addNoun(wallet.getName());
 
         /* 
             Once the commandSystem knows about the item, we need to code what happens with each of the commands that can happen with the item.

@@ -45,7 +45,6 @@ public class CommandSystem {
         case "l":
         case "look": // will show the description of the current room (stored in the state object)
             System.out.println("You look around.");
-            System.out.println(formatStringToScreenWidth(state.currentLocation.description));
             break;
         case "?":
             this.printHelp();

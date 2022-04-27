@@ -9,36 +9,49 @@ Based on starter code first developed by Prof. Dastyni Loksa
 This class represents an item that can be interacted with by the player.  
 */
 public class Item {
-    String name;
-    boolean embeded;
-    String shortDesc;
-    int gas = 0;
-    String description;
-    ArrayList<String> status = new ArrayList<String>();
+    private String 
+      name,
+      shortDesc,
+      description;
 
-    public Item (){};
+    Item () {};
     
-    public Item(String n, String d){
-        name = n;
-        embeded = false;
-        shortDesc = d;
+    Item(String name, String description) {
+      this.name = name;
+      this.description = description;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getDesc() {
-        return description;
-    }
 }
 
+// Subclasses
 
-    class Lighter extends Item {
-        int gas = 0;
-        
-    }
+class Lighter extends Item {
+  private int gas;
 
-    class Wallet extends Item {
+  Lighter () {
+    this.gas = 3;
+  }
 
-    }
+  Lighter(String name, String description, int gas) {
+    super();
+    this.gas = gas;
+  }
+}
+
+class Wallet extends Item {
+  private ArrayList<Card> cards = new ArrayList<Card>();
+  Wallet (String name, String description, ArrayList<Card> cards) {
+    super();
+    this.cards = cards;
+  }
+}
+
+class Stick extends Item {
+  private String name = "Stick";
+  int durability = 3;
+}
+
+class Card extends Item {
+  private String name = "Card";
+  private boolean accessHome = true;
+}

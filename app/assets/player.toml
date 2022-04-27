@@ -1,0 +1,10 @@
+toxity = 100
+
+[items]
+  lighter
+  stick
+  [items.wallet]
+  wallet
+
+[observations]
+  
