@@ -35,20 +35,50 @@ public class GameState {
 
         // Location nodes
         Location 
-          river, convenienceStore, startingPoint,
-          campFire, fallenTree, home, opening, roadFork;
+          river = 
+            new Location("River", "Flows very nice", 
+            // Sets scary entity in location
+            new Scary()),
 
-        // this line longer than chick fil a
-        river = convenienceStore = startingPoint = campFire = fallenTree = home = opening = roadFork = new Location();
+          convenienceStore = 
+            new Location("Local 7-11", "This is not okay. Why am I here?"), 
+
+          startingPoint = 
+            new Location (
+              "Starting point", 
+              """
+              There's a cliff to the north. I don't even want to try climbing up that
+              But I could go three ways. 
+              There's nice trail if I go south. Looks enticing 
+              
+              """
+            ),
+
+          campFire = 
+            new Location("Campfire", "You're in a campfire surrounded by your friends. You're safe now"), 
+
+          fallenTree = 
+            new Location("Fallen tree", "You see a fallen tree. It's also a fork that leads north or south",
+            new Tripy()), 
+
+          home =
+            new Location("Home", "You've reached home. You feel safe but alone."), 
+
+          opening =
+            new Location("Opening", "An opening field", 
+            new Normal()), 
+
+          roadFork = 
+            new Location("Road", "It's the main road. It's empty and dark");
 
         // Add Location object as a node in the graph
         locations.addNode(river);       
-        locations.addNode(convenienceStore);       
-        locations.addNode(startingPoint);       
-        locations.addNode(campFire);       
-        locations.addNode(fallenTree);       
-        locations.addNode(home);       
-        locations.addNode(opening);       
+        locations.addNode(convenienceStore);
+        locations.addNode(startingPoint);
+        locations.addNode(campFire);
+        locations.addNode(fallenTree);
+        locations.addNode(home);
+        locations.addNode(opening);
         locations.addNode(roadFork);
 
         // Edge values represent how much toxicity is taxed when traversed 
@@ -61,17 +91,17 @@ public class GameState {
         locations.putEdgeValue(roadFork, convenienceStore, 12);
         locations.putEdgeValue(opening, campFire, 5);
 
-        System.out.println(locations);
+        // for (Location l : locations.adjacentNodes(startingPoint)) 
+        //   System.out.println(l.getName());
 
-        // Init player items
-        // Lighter lighter = new Lighter();
-        // Stick stick = new Stick();
-        // Wallet wallet = new Wallet();
+        // Spawn player at starting point
+        Player player = new Player(startingPoint);
+        // player.walk(locations.adjacentNodes(player.currentLocation).iterator().next());
+        player.walk(fallenTree);
 
-        //Add item to list of nouns so our command system knows it exists.
-        // commandSystem.addNoun(lighter.getName());
-        // commandSystem.addNoun(stick.getName());
-        // commandSystem.addNoun(wallet.getName());
+        // Add player items as nouns
+        for (Item i : player.itemList)
+        commandSystem.addNoun(i.getName());
 
         /* 
             Once the commandSystem knows about the item, we need to code what happens with each of the commands that can happen with the item.

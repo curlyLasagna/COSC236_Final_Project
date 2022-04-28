@@ -32,18 +32,14 @@ public class CommandSystem {
         DISPLAY_WIDTH = GameState.DISPLAY_WIDTH;
         // Assign verbs and descriptions here
         addVerb("?", "Show this help screen.");
-        addVerb("look",
-                "Use the look command by itself to look in your current area. \nYou can also look at a person or object by ntyping look and the name of what you want to look at.\nExample: look book");
         addVerb("l", "Same as the look command.");
-        addVerb("quit", "Quit the game."); // NOTE: In the starter code, this is handeled by the client code - not the
-                                           // CommandSystem.
     }
 
     // When a command is only one Verb this method controls the result.
     public void executeVerb(String verb) {
         switch (verb) {
         case "l":
-        case "look": // will show the description of the current room (stored in the state object)
+        case "look":
             System.out.println("You look around.");
             break;
         case "?":
@@ -53,33 +49,27 @@ public class CommandSystem {
     }
 
     // When a command is a Verb followed by a noun, this method controls the result.
-    public void executeVerbNoun(String verb, String noun) {
+    public <T extends Entity & Item & Location> void executeVerbNoun(String verb, String noun, T obj) {
         // Initilize the string that we will use as a response to player input.
         String resultString = "";
 
-        switch (verb) { // Deciddes what to do based on each verb
-        case "l":
-        case "look":
-            switch (noun) { // for the given verb, decide what to do based on what noun was entered
-            case "mat":
-                /*
-                 * This is extremely simple and hard coded. You should figure out a way to get
-                 * the description from the mat itself and print that out here.
-                 */
-                resultString += "You look at the welcome mat. You see nothing special.";
-                break;
-
-            // You cound design a way to look at any item without having to specify how to
-            // deal with each of them.
-            // That way you can code special cases for some items, and others would just use
-            // default behavior.
-            // This is HIGHLY encouraged. (It will save time and headaches!)
-            default:
-            }
-        }
-
+        resultString = 
+          switch (verb) { // Decides what to do based on each verb
+            case "l", "look": 
+              if(noun.equals(obj.name()))
+                yield obj.getDescription();
+            case "t", "throw":
+              // if(noun.equals(thing.name())) {
+              //   thing = 
+              
+            case "w", "walk":
+              thing.walk();
+            default: System.err.println("Error");
+        };
         System.out.println(formatStringToScreenWidth(resultString));
     }
+
+
 
     // When a command is a Verb followed by two nouns, this method controls the
     // result.
@@ -99,11 +89,10 @@ public class CommandSystem {
 
         String s2 = "";
         while (s2.length() < DISPLAY_WIDTH) {
-            if (s2.length() == (DISPLAY_WIDTH / 2 - 10)) {
+            if (s2.length() == (DISPLAY_WIDTH / 2 - 10)) 
                 s2 += " Commands ";
-            } else {
+             else 
                 s2 += " ";
-            }
         }
 
         System.out.println("\n\n" + s1 + "\n" + s2 + "\n" + s1 + "\n");
@@ -142,6 +131,33 @@ public class CommandSystem {
         return result + "\n\n";
     }
 
+    // Adds a noun to the noun list
+    // lets the command system know this is something you an interact with.
+    public void addNoun(String string) {
+        if (!nouns.contains(string.toLowerCase()))
+            nouns.add(string.toLowerCase());
+    }
+
+    // Adds a verb to the verb list and the description to the parallel description list
+    // Adding a verb lets the command system know you want this to be a command.
+    public void addVerb(String verb, String description) {
+        verbs.add(verb.toLowerCase());
+        verbDescription.add(description.toLowerCase());
+    }
+
+    /**
+     * List all locations 
+     * ...
+     * Get size of Locations
+     * Where do you want to go?
+     * 1. River
+     * 2. House
+     * 3. Street
+     * 4. Campfire
+     * 5. River
+     * > 5
+     * < "You walked to River"
+     */
     // formats a string to DISPLAY_WIDTH character width.
     // Used when getting descriptions from items/locations and printing them to the screen.
     // use [nl] for a newline in a string in a description etc.
@@ -198,18 +214,5 @@ public class CommandSystem {
         return result;
     }
 
-    // Adds a noun to the noun list
-    // lets the command system know this is something you an interact with.
-    public void addNoun(String string) {
-        if (!nouns.contains(string.toLowerCase()))
-            nouns.add(string.toLowerCase());
-    }
-
-    // Adds a verb to the verb list and the description to the parallel description list
-    // Adding a verb lets the command system know you want this to be a command.
-    public void addVerb(String verb, String description) {
-        verbs.add(verb.toLowerCase());
-        verbDescription.add(description.toLowerCase());
-    }
 
 }

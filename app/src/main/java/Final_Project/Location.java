@@ -5,15 +5,23 @@ public class Location {
     String 
     name,
     description;
-    Entity entityInLocation;
+  private boolean hasEntity;
+  private Entity entityInLocation;
 
-    public Location() {
+    public Location() {};
 
-    };
+    public Location(String name, String description) {
+      this.name = name;
+      this.description = description;
+      this.hasEntity = false;
+    }
 
-    public Location(String name, String description, Entity entity){
-      entityInLocation = entity;
-    };
+    public Location(String name, String descripton, Entity entityInLocation) {
+      this.name = name;
+      this.description = descripton;
+      this.entityInLocation = entityInLocation;
+      this.hasEntity = true;
+    }
 
     public String getName() {
         return name;
@@ -21,6 +29,10 @@ public class Location {
 
     public String getDesc() {
         return description;
+    }
+
+    public void setDecs(String description) {
+      this.description = description;
     }
 
     public Entity getEntityInLocation() {

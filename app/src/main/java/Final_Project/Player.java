@@ -1,35 +1,61 @@
 package Final_Project;
 
+import java.util.ArrayList;
+
 public class Player {
-
-    public Player() {
+  private
     int toxicity = 100;
+    ArrayList<String> availableActions;
     Location currentLocation;
-    Item lighter;
-    Item stick;
-    Item wallet;
-    Entity scary;
-    Entity trippy;
-    Entity normal;
+    ArrayList<Item> itemList; 
+    Lighter lighter;
+    Stick stick;
+    Wallet wallet;
 
-    lighter = new Lighter( "Lighter", "You have a white lighter", 0);
-    stick = new Stick("Stick", "You have a stick that you picked up from the ground", 3);
+public Player(Location location) {
 
-    // need to create card array list
-    wallet = new Wallet("Wallet", "You reach into your pocket and pull out your wallet", );
-
-    // scary = new Entity();
-    // scary.name = "scary";
-    // scary.description = "You see a tall shadow with what seems to be a white mask standing silently near the stream bank. The creature does not move as you step closer";
+    // Load player with default items
+    lighter = new Lighter();
+    stick = new Stick();
+    wallet = new Wallet();
+    itemList = new ArrayList<>();
+    itemList.add(lighter);
+    itemList.add(wallet);
+    itemList.add(stick);
 
     }
 
-    public int getToxicity() {
+    void setToxicity(int toxicity) {
+      this.toxicity = toxicity;
+    }
+
+    void setCurrentLocation(Location currentLocation) {
+      this.currentLocation = currentLocation;
+    }
+
+    int getToxicity() {
         return toxicity;
     }
 
+    Location getCurrentLocation() {
+      return currentLocation;
+    }
+
     public void look() {
-        // state.currentLocation.getDesc();
+      currentLocation.getDesc();
+    }
+
+    public void look(Entity entity) {
+      currentLocation.getEntityInLocation().getDesc();
+    }
+
+    public void walk(Location location) {
+      System.out.println("You walked to " + location.getName());
+      currentLocation = location;
+    }
+
+    public ArrayList<Item> getItemList() {
+      return itemList;
     }
 
 }

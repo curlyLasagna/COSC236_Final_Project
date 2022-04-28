@@ -9,13 +9,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class AppTest {
     @Test void initClasses() {
         String errorMsg = "Class does not exist";
-        Location locationTest = new Location();
-        Entity entityTest = new Entity();
+        Entity scaryTest = new Scary("Kaonashi", "Fucked", 3);
+        Entity normaltest = new Normal("Dog", "Your cute dog", 4);
+        Location locationTest = new Location("River", "It smells", scaryTest);
         Item itemTest = new Item();
         
         assertNotNull(locationTest, errorMsg);
         assertNotNull(itemTest, errorMsg);
-        assertNotNull(entityTest, errorMsg);
+        assertNotNull(scaryTest, errorMsg);
+        assertEquals("Fucked", scaryTest.getDesc());
+        
         // assertNotNull(classUnderTest.main(), "app should have a greeting");
     }
 }

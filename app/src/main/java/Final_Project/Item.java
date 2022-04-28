@@ -11,17 +11,22 @@ This class represents an item that can be interacted with by the player.
 public class Item {
     private
       String name;
-      String shortDesc;
       String description;
 
     Item () {};
-    
 
     Item(String name, String description) {
       this.name = name;
       this.description = description;
     }
 
+    String getName() {
+      return name;
+    }
+
+    String getDescription() {
+      return description;
+    }
 }
 
 // Subclasses
@@ -29,7 +34,9 @@ public class Item {
 class Lighter extends Item {
   private int gas;
 
+  // Default constructor
   Lighter () {
+    super("Lighter", "You have a white lighter.");
     this.gas = 3;
   }
 
@@ -40,27 +47,39 @@ class Lighter extends Item {
 }
 
 class Wallet extends Item {
-  private ArrayList<Card> cards = new ArrayList<Card>();
+  private ArrayList<Card> cards;
+  Wallet() {
+   super("Wallet", "You reach into your pocket pull out your wallet.");
+   cards = new ArrayList<>();
+   cards.add(new Card("Credit Card", "Capital Two credit card", false)); 
+   cards.add(new Card("Home Swipe", "Swipe card to get in my house", true));
+  }
+
   Wallet (String name, String description, ArrayList<Card> cards) {
-    super();
+    super(name, description);
     this.cards = cards;
   }
 }
 
 class Stick extends Item {
-  private String name = "Stick";
   int durability = 3;
 
+  Stick() {
+    super("Stick", "You picked up a stick that found on the ground.");
+  }
+  
   Stick(String name, String description, int durability) {
-      this.name = name;
-      this.description = description;
-      this.durability = durability;
+    super(name, description);
+    this.durability = durability;
   }
 }
 
 class Card extends Item {
-  private String name = "Card";
   private boolean accessHome = true;
 
+  Card(String name, String description, boolean accessHome) {
+    super(name, description);
+    this.accessHome = accessHome;
+  }
 
 }

@@ -43,7 +43,7 @@ public class App {
                 System.out.println("Goodbye.");
                 in.close();
 
-                // Command has 1 word - Check if it is a valid verb and execute it.
+                // No arg commands
             } else if (input.length == 1 && commandSystem.hasVerb(input[0])) {
                 commandSystem.executeVerb(input[0]);
 
