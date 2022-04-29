@@ -41,7 +41,14 @@ public class CommandSystem {
         switch (verb) {
         case "l":
         case "look":
-            System.out.println("You look around.");
+            System.out.printf(
+              """
+              You look around.
+              You're currently at %s 
+              %s
+              """, 
+              state.player.getCurrentLocation().getName(),
+              state.player.getCurrentLocation().getDesc());
             break;
         case "?":
             this.printHelp();
@@ -59,7 +66,10 @@ public class CommandSystem {
             case "w":
               switch(noun) {
                 case "river":
-                  yield state.getLocations().nodes().iterator().next().getDesc();
+                  System.out.println("Player is currently at " + state.player.getCurrentLocation().getName());
+                  yield String.format("You walk to %s %n %s", 
+                      state.getLocations().nodes().iterator().next().getName(),
+                      state.getLocations().nodes().iterator().next().getDesc());
                 }
             case "l": 
               switch (noun) {
@@ -144,19 +154,6 @@ public class CommandSystem {
         verbDescription.add(description.toLowerCase());
     }
 
-    /**
-     * List all locations 
-     * ...
-     * Get size of Locations
-     * Where do you want to go?
-     * 1. River
-     * 2. House
-     * 3. Street
-     * 4. Campfire
-     * 5. River
-     * > 5
-     * < "You walked to River"
-     */
     // formats a string to DISPLAY_WIDTH character width.
     // Used when getting descriptions from items/locations and printing them to the screen.
     // use [nl] for a newline in a string in a description etc.

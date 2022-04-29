@@ -51,7 +51,6 @@ public class GameState {
               There's a cliff to the north. I don't even want to try climbing up that
               But I could go three ways. 
               There's nice trail if I go south. Looks enticing 
-              
               """
             ),
 
@@ -71,6 +70,10 @@ public class GameState {
 
           roadFork = 
             new Location("Road", "It's the main road. It's empty and dark");
+
+        /*
+         * I know... it looks bad but I'll fix it later
+         * */
 
         // Add Location object as a node in the graph
         locations.addNode(river);       
@@ -97,12 +100,10 @@ public class GameState {
 
         // Spawn player at starting point
         player = new Player(startingPoint);
-        // player.walk(locations.adjacentNodes(player.currentLocation).iterator().next());
-        player.walk(fallenTree);
 
         // Add player items as nouns
         for (Item i : player.itemList)
-        commandSystem.addNoun(i.getName());
+          commandSystem.addNoun(i.getName());
 
         commandSystem.addNoun(river.getName());
 

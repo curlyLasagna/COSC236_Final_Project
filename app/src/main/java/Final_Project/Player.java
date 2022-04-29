@@ -22,7 +22,7 @@ public Player(Location location) {
     itemList.add(lighter);
     itemList.add(wallet);
     itemList.add(stick);
-
+    currentLocation = location;
     }
 
     void setToxicity(int toxicity) {
