@@ -24,6 +24,8 @@ public Player(Location location) {
     itemList.add(stick);
 
     }
+    
+   
 
     void setToxicity(int toxicity) {
       this.toxicity = toxicity;

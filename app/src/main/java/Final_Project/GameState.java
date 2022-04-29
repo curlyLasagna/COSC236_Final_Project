@@ -15,6 +15,7 @@ import com.google.common.graph.*;
 
 public class GameState {
     CommandSystem commandSystem;
+    Player player;
     MutableValueGraph<Location, Integer> locations 
       = ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
     
@@ -32,7 +33,6 @@ public class GameState {
     */
     public GameState() {
         commandSystem = new CommandSystem(this);
-
         // Location nodes
         Location 
           river = 
@@ -46,12 +46,7 @@ public class GameState {
           startingPoint = 
             new Location (
               "Starting point", 
-              """
-              There's a cliff to the north. I don't even want to try climbing up that
-              But I could go three ways. 
-              There's nice trail if I go south. Looks enticing 
-              
-              """
+              ""
             ),
 
           campFire = 
@@ -107,5 +102,8 @@ public class GameState {
             Once the commandSystem knows about the item, we need to code what happens with each of the commands that can happen with the item.
             See CommandSystem line 64 for what happens if you currently "look mat"
         */
+    }
+    Player getPlayer() {
+      return player;
     }
 }

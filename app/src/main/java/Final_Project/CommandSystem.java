@@ -49,22 +49,49 @@ public class CommandSystem {
     }
 
     // When a command is a Verb followed by a noun, this method controls the result.
-    public <T extends Entity & Item & Location> void executeVerbNoun(String verb, String noun, T obj) {
-        // Initilize the string that we will use as a response to player input.
+    // down
+    // public <T extends Entity & Item & Location> void executeVerbNoun(String verb, String noun, T obj) {
+    // public void executeVerbNoun(String verb, String noun) {
+    //     // Initilize the string that we will use as a response to player input.
+    //     String resultString = "";
+    //     switch (verb) { // Decides what to do based on each verb
+    //     case "l":
+    //     case "look": 
+
+    //         //   if(noun.equals(obj.name()))
+    //         //     yield obj.getDescription();
+    //     case "t":
+    //     case "throw":
+    //           // if(noun.equals(thing.name())) {
+    //           //   thing = 
+              
+    //     case "w":
+    //     case "walk":
+    //           thing.walk();
+    //         default: System.err.println("Error");
+    //     };
+    //     System.out.println(formatStringToScreenWidth(resultString));
+    // }
+
+    public <T> void executeVerbNoun(String verb, String noun) {
         String resultString = "";
 
-        resultString = 
-          switch (verb) { // Decides what to do based on each verb
-            case "l", "look": 
-              if(noun.equals(obj.name()))
-                yield obj.getDescription();
-            case "t", "throw":
-              // if(noun.equals(thing.name())) {
-              //   thing = 
-              
-            case "w", "walk":
-              thing.walk();
-            default: System.err.println("Error");
+          switch (verb) { 
+            case "l":
+            case "look": 
+              switch (noun) {
+                case "lighter": 
+                  resultString += state.getPlayer().getItemList().get(0).getDescription();
+                  break;
+                case "wallet":
+                    resultString += state.getPlayer().getItemList().get(1).getDescription();
+                    break;
+                case "stick":
+                    resultString += state.getPlayer().getItemList().get(2).getDescription();
+                    break;
+              }
+            default:
+              resultString += "Error";
         };
         System.out.println(formatStringToScreenWidth(resultString));
     }
