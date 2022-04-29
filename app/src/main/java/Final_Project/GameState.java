@@ -15,6 +15,7 @@ import com.google.common.graph.*;
 
 public class GameState {
     CommandSystem commandSystem;
+    Player player;
     MutableValueGraph<Location, Integer> locations 
       = ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
     
@@ -95,7 +96,7 @@ public class GameState {
         //   System.out.println(l.getName());
 
         // Spawn player at starting point
-        Player player = new Player(startingPoint);
+        player = new Player(startingPoint);
         // player.walk(locations.adjacentNodes(player.currentLocation).iterator().next());
         player.walk(fallenTree);
 
@@ -103,9 +104,20 @@ public class GameState {
         for (Item i : player.itemList)
         commandSystem.addNoun(i.getName());
 
+        commandSystem.addNoun(river.getName());
+
         /* 
             Once the commandSystem knows about the item, we need to code what happens with each of the commands that can happen with the item.
             See CommandSystem line 64 for what happens if you currently "look mat"
         */
     }
+
+    Player getPlayer() {
+      return player;
+    }
+
+    MutableValueGraph<Location, Integer> getLocations() {
+      return locations;
+    }
+
 }

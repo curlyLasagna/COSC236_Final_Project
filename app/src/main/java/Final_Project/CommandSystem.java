@@ -33,6 +33,7 @@ public class CommandSystem {
         // Assign verbs and descriptions here
         addVerb("?", "Show this help screen.");
         addVerb("l", "Same as the look command.");
+        addVerb("w", "Walk to river");
     }
 
     // When a command is only one Verb this method controls the result.
@@ -49,30 +50,29 @@ public class CommandSystem {
     }
 
     // When a command is a Verb followed by a noun, this method controls the result.
-    public <T extends Entity & Item & Location> void executeVerbNoun(String verb, String noun, T obj) {
+    public <T> void executeVerbNoun(String verb, String noun) {
         // Initilize the string that we will use as a response to player input.
         String resultString = "";
 
         resultString = 
-          switch (verb) { // Decides what to do based on each verb
-            case "l", "look": 
-              if(noun.equals(obj.name()))
-                yield obj.getDescription();
-            case "t", "throw":
-              // if(noun.equals(thing.name())) {
-              //   thing = 
-              
-            case "w", "walk":
-              thing.walk();
-            default: System.err.println("Error");
+          switch (verb) {
+            case "w":
+              switch(noun) {
+                case "river":
+                  yield state.getLocations().nodes().iterator().next().getDesc();
+                }
+            case "l": 
+              switch (noun) {
+                case "lighter": 
+                  yield state.getPlayer().getItemList().get(0).getDescription();
+                }
+            default: 
+              yield "Error";
         };
-        System.out.println(formatStringToScreenWidth(resultString));
+      System.out.println(formatStringToScreenWidth(resultString));
     }
 
-
-
-    // When a command is a Verb followed by two nouns, this method controls the
-    // result.
+    // When a command is a Verb followed by two nouns, this method controls the result.
     public void executeVerbNounNoun(String string, String string2, String string3) {
     // 3 nested switch statements
 
@@ -97,7 +97,6 @@ public class CommandSystem {
 
         System.out.println("\n\n" + s1 + "\n" + s2 + "\n" + s1 + "\n");
         for (String v : verbs) {
-            // System.out.printp(v + " --> " + verbDescription.get(verbs.indexOf(v)));
             System.out.printf("%-8s  %s", v, formatMenuString(verbDescription.get(verbs.indexOf(v))));
         }
     }
@@ -213,6 +212,4 @@ public class CommandSystem {
         chop.close();
         return result;
     }
-
-
 }
