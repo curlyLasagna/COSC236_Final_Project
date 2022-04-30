@@ -5,23 +5,17 @@ import java.util.ArrayList;
 public class Player {
   private
     int toxicity = 100;
-    ArrayList<String> availableActions;
     Location currentLocation;
+    ArrayList<String> availableActions;
     ArrayList<Item> itemList; 
-    Lighter lighter;
-    Stick stick;
-    Wallet wallet;
 
 public Player(Location location) {
 
     // Load player with default items
-    lighter = new Lighter();
-    stick = new Stick();
-    wallet = new Wallet();
     itemList = new ArrayList<>();
-    itemList.add(lighter);
-    itemList.add(wallet);
-    itemList.add(stick);
+    itemList.add(new Lighter());
+    itemList.add(new Wallet());
+    itemList.add(new Stick());
     currentLocation = location;
     }
 

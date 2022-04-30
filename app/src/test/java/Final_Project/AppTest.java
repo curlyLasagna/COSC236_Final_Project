@@ -5,6 +5,7 @@ package Final_Project;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import com.google.common.graph.*;
 
 class AppTest {
     @Test void initClasses() {
@@ -18,7 +19,18 @@ class AppTest {
         assertNotNull(itemTest, errorMsg);
         assertNotNull(scaryTest, errorMsg);
         assertEquals("Fucked", scaryTest.getDesc());
-        
-        // assertNotNull(classUnderTest.main(), "app should have a greeting");
+    }
+
+}
+
+class LocationTest {
+    @Test
+    void testLocation() {
+      MutableValueGraph<String, Integer> locations 
+        = ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
+
+      locations.addNode("Node 0");
+      locations.addNode("Node 1");
+      locations.addNode("Node 2");
     }
 }

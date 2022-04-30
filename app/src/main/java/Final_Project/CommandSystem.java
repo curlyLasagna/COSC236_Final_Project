@@ -14,9 +14,9 @@ public class CommandSystem {
     private static int DISPLAY_WIDTH = 80;
     private GameState state;
 
+    private List<String> nouns = new ArrayList<String>();
     private List<String> verbs = new ArrayList<String>();
     private List<String> verbDescription = new ArrayList<String>();
-    private List<String> nouns = new ArrayList<String>();
 
     /*
      * Constructor should defines all verbs that can be used in the commands and all
@@ -31,24 +31,31 @@ public class CommandSystem {
         this.state = state;
         DISPLAY_WIDTH = GameState.DISPLAY_WIDTH;
         // Assign verbs and descriptions here
-        addVerb("?", "Show this help screen.");
-        addVerb("l", "Same as the look command.");
-        addVerb("w", "Walk to river");
+        addVerb("?", "Help");
+        addVerb("look", "look. look <Item>");
+        addVerb("walk", "Walk to <Location>");
     }
 
     // When a command is only one Verb this method controls the result.
     public void executeVerb(String verb) {
+      ArrayList<String> neighborLocations = new ArrayList<>();
         switch (verb) {
-        case "l":
         case "look":
+            Iterator<Location> it = state.locations.adjacentNodes(state.player.getCurrentLocation()).iterator();
+            while(it.hasNext())
+              neighborLocations.add((it.next().getName()));
+
             System.out.printf(
               """
-              You look around.
               You're currently at %s 
               %s
+              You can travel at:
               """, 
               state.player.getCurrentLocation().getName(),
               state.player.getCurrentLocation().getDesc());
+            for(String s : neighborLocations) {
+              System.out.println(s);
+            }
             break;
         case "?":
             this.printHelp();
@@ -60,18 +67,18 @@ public class CommandSystem {
     public <T> void executeVerbNoun(String verb, String noun) {
         // Initilize the string that we will use as a response to player input.
         String resultString = "";
-
         resultString = 
           switch (verb) {
-            case "w":
+            case "walk":
               switch(noun) {
                 case "river":
+                  state.player.setCurrentLocation(state.locations.adjacentNodes(state.player.getCurrentLocation()).iterator().next());
                   System.out.println("Player is currently at " + state.player.getCurrentLocation().getName());
-                  yield String.format("You walk to %s %n %s", 
-                      state.getLocations().nodes().iterator().next().getName(),
-                      state.getLocations().nodes().iterator().next().getDesc());
+                  yield String.format("You walk to %s %n %s",
+                      state.player.currentLocation.getName(),
+                      state.player.currentLocation.getDesc());
                 }
-            case "l": 
+            case "look": 
               switch (noun) {
                 case "lighter": 
                   yield state.getPlayer().getItemList().get(0).getDescription();

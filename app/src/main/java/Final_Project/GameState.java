@@ -1,16 +1,12 @@
 /*
-GameState.java
-For use in the Final project for COSC 236.
-Based on starter code first developed by Prof. Dastyni Loksa
-
 This is the class to hold the state of the running game and allows easy
 passing of important information to methods that require data from the
 state of the game.
-
-This starter code is designed for the verbs to be stored in the commandSystem.
-
 */
 package Final_Project;
+import java.util.TreeMap;
+import java.util.Map;
+
 import com.google.common.graph.*;
 
 public class GameState {
@@ -33,6 +29,7 @@ public class GameState {
     */
     public GameState() {
         commandSystem = new CommandSystem(this);
+        
 
         // Location nodes
         Location 
@@ -42,11 +39,11 @@ public class GameState {
             new Scary()),
 
           convenienceStore = 
-            new Location("Local 7-11", "This is not okay. Why am I here?"), 
+            new Location("7-11", "A convenience store? This is not okay. Why am I here?"), 
 
           startingPoint = 
             new Location (
-              "Starting point", 
+              "Start", 
               """
               There's a cliff to the north. I don't even want to try climbing up that
               But I could go three ways. 
@@ -58,7 +55,7 @@ public class GameState {
             new Location("Campfire", "You're in a campfire surrounded by your friends. You're safe now"), 
 
           fallenTree = 
-            new Location("Fallen tree", "You see a fallen tree. It's also a fork that leads north or south",
+            new Location("Tree", "You see a fallen tree. It's also a fork that leads north or south",
             new Tripy()), 
 
           home =
@@ -71,19 +68,48 @@ public class GameState {
           roadFork = 
             new Location("Road", "It's the main road. It's empty and dark");
 
-        /*
-         * I know... it looks bad but I'll fix it later
-         * */
+        Location [] locationArr = {
+            new Location(
+                "River", 
+                "Flows very nice", 
+            // Sets scary entity in River
+            new Scary()
+            ),
+            new Location(
+                "7-11", 
+                "This is not okay. Why am I here?"), 
+            new Location (
+              "Starting point", 
+              """
+              There's a cliff to the north. I don't even want to try climbing up that
+              """
+            ),
+            new Location(
+                "Campfire", 
+                "You're in a campfire surrounded by your friends. You're safe now"), 
+            new Location(
+                "Fallen tree", 
+                "You see a fallen tree. It's also a fork that leads north or south",
+                // Sets Tripy entity in Fallen Tree
+                new Tripy()
+            ), 
+            new Location(
+                "Home", 
+                "You've reached home. You feel safe but alone."), 
+            new Location(
+                "Opening", 
+                "An opening field", 
+                new Normal()
+            ), 
+            new Location("Road", 
+                "It's the main road. It's empty and dark")
+        };
 
-        // Add Location object as a node in the graph
-        locations.addNode(river);       
-        locations.addNode(convenienceStore);
-        locations.addNode(startingPoint);
-        locations.addNode(campFire);
-        locations.addNode(fallenTree);
-        locations.addNode(home);
-        locations.addNode(opening);
-        locations.addNode(roadFork);
+        // Add location as nodes in the graph
+        for(Location l : locationArr)
+          locations.addNode(l);
+
+        Map<Location, Integer> locationEdges = new TreeMap<Location, Integer>();
 
         // Edge values represent how much toxicity is taxed when traversed 
         locations.putEdgeValue(startingPoint, river, 5);
@@ -102,10 +128,12 @@ public class GameState {
         player = new Player(startingPoint);
 
         // Add player items as nouns
-        for (Item i : player.itemList)
+        for (Item i : player.getItemList())
           commandSystem.addNoun(i.getName());
 
-        commandSystem.addNoun(river.getName());
+        // Returns neighboring locations at Starting point for now
+        for (Location l : locations.adjacentNodes(player.getCurrentLocation()))
+          commandSystem.addNoun(l.getName());
 
         /* 
             Once the commandSystem knows about the item, we need to code what happens with each of the commands that can happen with the item.
