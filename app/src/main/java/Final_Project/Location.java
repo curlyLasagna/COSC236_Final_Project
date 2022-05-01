@@ -1,5 +1,8 @@
 package Final_Project;
 
+import java.util.Map.Entry;
+import java.util.Map;
+
 public class Location {
   private
     String 
@@ -31,12 +34,16 @@ public class Location {
         return description;
     }
 
-    public void setDecs(String description) {
+    public void setDesc(String description) {
       this.description = description;
     }
 
     public Entity getEntityInLocation() {
       return entityInLocation;
+    }
+
+    public Map.Entry<String, Location> stringLocation() {
+      return Map.entry(name, this);
     }
 
 }

@@ -17,6 +17,7 @@ public class CommandSystem {
     private List<String> nouns = new ArrayList<String>();
     private List<String> verbs = new ArrayList<String>();
     private List<String> verbDescription = new ArrayList<String>();
+    Player player = state.getPlayer();
 
     /*
      * Constructor should defines all verbs that can be used in the commands and all
@@ -38,13 +39,9 @@ public class CommandSystem {
 
     // When a command is only one Verb this method controls the result.
     public void executeVerb(String verb) {
-      ArrayList<String> neighborLocations = new ArrayList<>();
         switch (verb) {
         case "look":
-            Iterator<Location> it = state.locations.adjacentNodes(state.player.getCurrentLocation()).iterator();
-            while(it.hasNext())
-              neighborLocations.add((it.next().getName()));
-
+            List<Location> l = new ArrayList<>(state.locations.adjacentNodes(player.getCurrentLocation()));
             System.out.printf(
               """
               You're currently at %s 
@@ -53,9 +50,10 @@ public class CommandSystem {
               """, 
               state.player.getCurrentLocation().getName(),
               state.player.getCurrentLocation().getDesc());
-            for(String s : neighborLocations) {
-              System.out.println(s);
+              for(int x = 0; x < l.size(); x++) {
+                System.out.println("Index: " + x + " Location: " + l.get(x).getName());
             }
+
             break;
         case "?":
             this.printHelp();
@@ -66,22 +64,25 @@ public class CommandSystem {
     // When a command is a Verb followed by a noun, this method controls the result.
     public <T> void executeVerbNoun(String verb, String noun) {
         // Initilize the string that we will use as a response to player input.
+          
         String resultString = "";
         resultString = 
           switch (verb) {
             case "walk":
+              List<Location> l = new ArrayList<>(state.locations.adjacentNodes(player.getCurrentLocation()));
+              // for(String str : l.)
               switch(noun) {
                 case "river":
-                  state.player.setCurrentLocation(state.locations.adjacentNodes(state.player.getCurrentLocation()).iterator().next());
-                  System.out.println("Player is currently at " + state.player.getCurrentLocation().getName());
+                  player.walk(state.locations.adjacentNodes(player.getCurrentLocation()).iterator().next());
+                  System.out.println("Player is currently at " + player.getCurrentLocation().getName());
                   yield String.format("You walk to %s %n %s",
-                      state.player.currentLocation.getName(),
-                      state.player.currentLocation.getDesc());
+                    state.player.currentLocation.getName(),
+                    state.player.currentLocation.getDesc());
                 }
             case "look": 
               switch (noun) {
                 case "lighter": 
-                  yield state.getPlayer().getItemList().get(0).getDescription();
+                  yield player.getItemList().get(0).getDescription();
                 }
             default: 
               yield "Error";
@@ -95,6 +96,7 @@ public class CommandSystem {
 
     }
 
+// {{{1
     /*
      * Prints out the help menu. Goes through all verbs and verbDescriptions
      * printing a list of all commands the user can use.
@@ -217,3 +219,4 @@ public class CommandSystem {
         return result;
     }
 }
+// }}}1

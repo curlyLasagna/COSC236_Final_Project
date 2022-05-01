@@ -106,10 +106,7 @@ public class App {
 
     // Used to let the user know that what they typed as a command is not understood.
     public static void unknownCommand(String input) {
-        if(Math.random() < .3) // A random chance for a silly response.
-            System.out.println("Don't be silly. Everyone knows '" + input + "' is not a command! Type ? for help.");
-        else 
-            System.out.println("I don't understand '" + input + "'. Type ? for help.");
+      System.out.println("I don't understand '" + input + "'. Type ? for help.");
     }
 
 }
