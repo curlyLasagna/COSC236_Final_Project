@@ -26,10 +26,6 @@ public class Location {
       this.hasEntity = true;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public String getDesc() {
         return description;
     }
@@ -43,7 +39,7 @@ public class Location {
     }
 
     public Map.Entry<String, Location> stringLocation() {
-      return Map.entry(name, this);
+      return Map.entry(name.toLowerCase(), this);
     }
 
 }

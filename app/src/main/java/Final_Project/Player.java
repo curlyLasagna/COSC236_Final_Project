@@ -44,7 +44,7 @@ public Player(Location location) {
     }
 
     public void walk(Location location) {
-      System.out.println("You walked to " + location.getName());
+      System.out.println("You walked to " + location.stringLocation().getKey());
       currentLocation = location;
     }
 

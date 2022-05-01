@@ -30,13 +30,12 @@ public class GameState {
     */
     public GameState() {
         commandSystem = new CommandSystem(this);
-        
 
         // Location nodes
+        // This has got to go
         Location 
           river = 
             new Location("River", "Flows very nice", 
-            // Sets scary entity in location
             new Scary()),
 
           convenienceStore = 
@@ -132,9 +131,9 @@ public class GameState {
         for (Item i : player.getItemList())
           commandSystem.addNoun(i.getName());
 
-        // Returns neighboring locations at Starting point for now
+        // Adds all locations as a noun
         for (Location l : locations.nodes())
-          commandSystem.addNoun(l.getName());
+          commandSystem.addNoun(l.stringLocation().getKey());
 
         /* 
             Once the commandSystem knows about the item, we need to code what happens with each of the commands that can happen with the item.

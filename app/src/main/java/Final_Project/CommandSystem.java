@@ -17,7 +17,6 @@ public class CommandSystem {
     private List<String> nouns = new ArrayList<String>();
     private List<String> verbs = new ArrayList<String>();
     private List<String> verbDescription = new ArrayList<String>();
-    Player player = state.getPlayer();
 
     /*
      * Constructor should defines all verbs that can be used in the commands and all
@@ -39,21 +38,32 @@ public class CommandSystem {
 
     // When a command is only one Verb this method controls the result.
     public void executeVerb(String verb) {
+      Player player = state.getPlayer();
         switch (verb) {
         case "look":
-            List<Location> l = new ArrayList<>(state.locations.adjacentNodes(player.getCurrentLocation()));
+            List<Location> l = 
+              new ArrayList<> (
+                state.locations
+                  .adjacentNodes(player.getCurrentLocation()));
+
             System.out.printf(
               """
               You're currently at %s 
               %s
-              You can travel at:
+              You can walk to:
               """, 
-              state.player.getCurrentLocation().getName(),
-              state.player.getCurrentLocation().getDesc());
-              for(int x = 0; x < l.size(); x++) {
-                System.out.println("Index: " + x + " Location: " + l.get(x).getName());
-            }
+              state.player
+                .getCurrentLocation()
+                .stringLocation()
+                .getKey(),
 
+              state.player
+                .getCurrentLocation()
+                .getDesc());
+
+              for(int x = 0; x < l.size(); x++) {
+                System.out.println(l.get(x).stringLocation().getKey());
+            }
             break;
         case "?":
             this.printHelp();
@@ -63,29 +73,53 @@ public class CommandSystem {
 
     // When a command is a Verb followed by a noun, this method controls the result.
     public <T> void executeVerbNoun(String verb, String noun) {
-        // Initilize the string that we will use as a response to player input.
           
+        Player player = state.getPlayer();
         String resultString = "";
         resultString = 
           switch (verb) {
-            case "walk":
-              List<Location> l = new ArrayList<>(state.locations.adjacentNodes(player.getCurrentLocation()));
-              // for(String str : l.)
-              switch(noun) {
-                case "river":
-                  player.walk(state.locations.adjacentNodes(player.getCurrentLocation()).iterator().next());
-                  System.out.println("Player is currently at " + player.getCurrentLocation().getName());
-                  yield String.format("You walk to %s %n %s",
-                    state.player.currentLocation.getName(),
-                    state.player.currentLocation.getDesc());
+            // CLEAN THIS SHIT UP. USE forEach
+            case "walk": {
+              // Store neighbor locations  
+              List<Location> l = new ArrayList<>(
+                state.locations.adjacentNodes(
+                  player.getCurrentLocation()));
+              ArrayList<Map.Entry<String, Location>> s = new ArrayList<>();
+
+              for(Location ls : l) 
+                s.add(ls.stringLocation());
+
+              /* If player travels, reduce player toxicity 
+               * Sets the player's current location to input noun */
+              for(Map.Entry<String, Location> x : s) 
+                if(noun.equals(x.getKey())) {
+                  int tax = 
+                    state.player.getToxicity() - state.locations
+                    .edgeValue(
+                        player.getCurrentLocation(), 
+                        x.getValue())
+                    .get();
+
+                  player.setToxicity(tax);
+                  player.walk(x.getValue());
                 }
+                
+              // System.out.println("Player is currently at " + 
+              //   player
+              //   .getCurrentLocation()
+              //   .stringLocation()
+              //   .getKey());
+
+              yield state.player.currentLocation.getDesc();
+            }
+
             case "look": 
               switch (noun) {
                 case "lighter": 
                   yield player.getItemList().get(0).getDescription();
                 }
             default: 
-              yield "Error";
+              yield "wtf";
         };
       System.out.println(formatStringToScreenWidth(resultString));
     }
