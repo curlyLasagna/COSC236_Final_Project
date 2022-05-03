@@ -1,4 +1,5 @@
 package Final_Project;
+import java.util.Map;
 
 public class Entity {
     String name;
@@ -17,6 +18,10 @@ public class Entity {
 
     public String getDesc() {
         return description;
+    }
+
+    public Map.Entry<String, Entity> keyVal() {
+      return Map.entry(name.toLowerCase(), this);
     }
 }
 
@@ -53,12 +58,12 @@ class Normal extends Entity {
 }
 
 class Tripy extends Entity {
-  int integrity = 100;
+  int integrity;
 
   Tripy() {
     name = "Peacock";
     description = "A Peacock sitting in a tree. It's majestic!";
-    integrity = 100;
+    integrity = 5;
   }
 
   Tripy(String name, String description, int integrity) {

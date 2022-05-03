@@ -39,8 +39,9 @@ public class CommandSystem {
     // When a command is only one Verb this method controls the result.
     public void executeVerb(String verb) {
       Player player = state.getPlayer();
+      String resultString = "";
         switch (verb) {
-        case "look":
+          case "look": {
             List<Location> l = 
               new ArrayList<> (
                 state.locations
@@ -50,8 +51,9 @@ public class CommandSystem {
               """
               You're currently at %s 
               %s
-              You can walk to:
+              You can walk towards:
               """, 
+
               state.player
                 .getCurrentLocation()
                 .stringLocation()
@@ -63,31 +65,29 @@ public class CommandSystem {
 
               for(int x = 0; x < l.size(); x++) {
                 System.out.println(l.get(x).stringLocation().getKey());
-            }
-            break;
-        case "?":
-            this.printHelp();
-            break;
+          }
         }
+      break;
+      case "?":
+        this.printHelp();
+        break;
     }
+  }
 
     // When a command is a Verb followed by a noun, this method controls the result.
     public <T> void executeVerbNoun(String verb, String noun) {
-          
         Player player = state.getPlayer();
         String resultString = "";
         resultString = 
           switch (verb) {
-            // CLEAN THIS SHIT UP. USE forEach
-            case "walk": {
-              // Store neighbor locations  
-              List<Location> l = new ArrayList<>(
-                state.locations.adjacentNodes(
-                  player.getCurrentLocation()));
-              ArrayList<Map.Entry<String, Location>> s = new ArrayList<>();
+            case "walk" -> {
 
-              for(Location ls : l) 
-                s.add(ls.stringLocation());
+              // Store string key and location value 
+              ArrayList<Map.Entry<String, Location>> s = new ArrayList<>();
+              state.locations.adjacentNodes(
+                player
+                .getCurrentLocation())
+                .forEach(x -> s.add(x.stringLocation()));
 
               /* If player travels, reduce player toxicity 
                * Sets the player's current location to input noun */
@@ -104,22 +104,12 @@ public class CommandSystem {
                   player.walk(x.getValue());
                 }
                 
-              // System.out.println("Player is currently at " + 
-              //   player
-              //   .getCurrentLocation()
-              //   .stringLocation()
-              //   .getKey());
-
-              yield state.player.currentLocation.getDesc();
+              yield "You walked to " + state.player.currentLocation.stringLocation().getKey() + '\n' + state.player.currentLocation.getDesc();
             }
 
-            case "look": 
-              switch (noun) {
-                case "lighter": 
-                  yield player.getItemList().get(0).getDescription();
-                }
-            default: 
-              yield "wtf";
+            case "look" -> "Skurt"; 
+            default -> 
+              throw new IllegalStateException("Invalid af");
         };
       System.out.println(formatStringToScreenWidth(resultString));
     }
@@ -130,7 +120,6 @@ public class CommandSystem {
 
     }
 
-// {{{1
     /*
      * Prints out the help menu. Goes through all verbs and verbDescriptions
      * printing a list of all commands the user can use.
@@ -253,4 +242,3 @@ public class CommandSystem {
         return result;
     }
 }
-// }}}1

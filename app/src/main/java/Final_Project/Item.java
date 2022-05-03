@@ -1,13 +1,8 @@
 package Final_Project;
 import java.util.ArrayList;
+import java.util.Map;
 
-/*
-Item.java
-For use in the Final project for COSC 236.
-Based on starter code first developed by Prof. Dastyni Loksa
-
-This class represents an item that can be interacted with by the player.  
-*/
+/* This class represents an item that can be interacted with by the player. */
 public class Item {
     private
       String name;
@@ -27,6 +22,10 @@ public class Item {
     String getDescription() {
       return description;
     }
+
+    public Map.Entry<String, Item> keyVal() {
+      return Map.entry(name.toLowerCase(), this);
+    }
 }
 
 // Subclasses
@@ -34,7 +33,6 @@ public class Item {
 class Lighter extends Item {
   private int gas;
 
-  // Default constructor
   Lighter () {
     super("Lighter", "You have a white lighter.");
     this.gas = 3;

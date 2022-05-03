@@ -20,13 +20,6 @@ public class GameState {
 
     /*
         GameState Constructor
-
-        Ideally, your game will be fully loaded and ready to play once this constructor has finished running.
-
-        How things have been done here are just a rudementry setup to link the other classes and have the 
-        bare bones example of the command system. This is not a great way to initilize your project.
-
-        You should do better!
     */
     public GameState() {
         commandSystem = new CommandSystem(this);
@@ -104,6 +97,7 @@ public class GameState {
             new Location("Road", 
                 "It's the main road. It's empty and dark")
         };
+        
 
         // Add location as nodes in the graph
         for(Location l : locationArr)

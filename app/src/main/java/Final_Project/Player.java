@@ -6,16 +6,20 @@ public class Player {
   private
     int toxicity = 100;
     Location currentLocation;
-    ArrayList<String> availableActions;
+    ArrayList<String> itemActions;
     ArrayList<Item> itemList; 
 
 public Player(Location location) {
 
     // Load player with default items
     itemList = new ArrayList<>();
+    itemActions = new ArrayList<>();
     itemList.add(new Lighter());
     itemList.add(new Wallet());
     itemList.add(new Stick());
+    itemActions.add("light");
+    itemActions.add("throw");
+    itemActions.add("hit");
     currentLocation = location;
     }
 
@@ -44,7 +48,6 @@ public Player(Location location) {
     }
 
     public void walk(Location location) {
-      System.out.println("You walked to " + location.stringLocation().getKey());
       currentLocation = location;
     }
 
