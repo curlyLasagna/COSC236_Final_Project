@@ -31,8 +31,11 @@ public class CommandSystem {
         this.state = state;
         DISPLAY_WIDTH = GameState.DISPLAY_WIDTH;
         // Assign verbs and descriptions here
+        String [] verbArr = {
+          
+        };
         addVerb("?", "Help");
-        addVerb("look", "look. look <Item>");
+        addVerb("look", "Look at your current surroundings");
         addVerb("walk", "Walk to <Location>");
     }
 
@@ -67,6 +70,11 @@ public class CommandSystem {
                 System.out.println(l.get(x).stringLocation().getKey());
           }
         }
+        case "walk":
+          System.out.println("Walk where?");
+
+        default: {
+        }
       break;
       case "?":
         this.printHelp();
@@ -78,12 +86,13 @@ public class CommandSystem {
     public <T> void executeVerbNoun(String verb, String noun) {
         Player player = state.getPlayer();
         String resultString = "";
+
         resultString = 
           switch (verb) {
-            case "walk" -> {
+            case "walk", "w" -> {
 
               // Store string key and location value 
-              ArrayList<Map.Entry<String, Location>> s = new ArrayList<>();
+              ArrayList<Map.Entry <String, Location> > s = new ArrayList<>();
               state.locations.adjacentNodes(
                 player
                 .getCurrentLocation())
@@ -103,13 +112,22 @@ public class CommandSystem {
                   player.setToxicity(tax);
                   player.walk(x.getValue());
                 }
-                
-              yield "You walked to " + state.player.currentLocation.stringLocation().getKey() + '\n' + state.player.currentLocation.getDesc();
+
+              yield String.format(
+                  "You walked to %s\n%s", 
+                  state.player.currentLocation.stringLocation().getKey(),
+                  state.player.currentLocation.getDesc()
+                  );
             }
 
-            case "look" -> "Skurt"; 
-            default -> 
-              throw new IllegalStateException("Invalid af");
+            case "look", "l" -> "Skurt"; 
+
+            default -> {
+              for(String s : player.itemActions.keySet())
+                if(verb.equals(s)) 
+                  player.itemActions.get(s).accept(player.itemList.get(noun));
+              yield "";
+            } 
         };
       System.out.println(formatStringToScreenWidth(resultString));
     }

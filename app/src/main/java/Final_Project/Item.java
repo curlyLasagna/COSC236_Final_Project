@@ -42,6 +42,25 @@ class Lighter extends Item {
     super();
     this.gas = gas;
   }
+
+  void setGas(int gas) {
+    this.gas = gas;
+  }
+
+  int getGas() { return gas; }
+
+  void light() {
+    System.out.println("Every spark is magic");
+    gas--;
+  }
+
+  void light(Entity e) {
+
+  }
+
+  void light(Item i) {
+
+  }
 }
 
 class Wallet extends Item {

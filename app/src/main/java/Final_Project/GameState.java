@@ -5,7 +5,6 @@ state of the game.
 */
 package Final_Project;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 import com.google.common.graph.*;
@@ -38,9 +37,11 @@ public class GameState {
             new Location (
               "Start", 
               """
+              This is where I last saw my friends. I got distracted
               There's a cliff to the north. I don't even want to try climbing up that
-              But I could go three ways. 
-              There's nice trail if I go south. Looks enticing 
+              A trail that lead towards the road in the south looks eerie
+              A river to the east looks like a fun time
+              A big ol tree on the
               """
             ),
 
@@ -97,13 +98,12 @@ public class GameState {
             new Location("Road", 
                 "It's the main road. It's empty and dark")
         };
-        
 
         // Add location as nodes in the graph
         for(Location l : locationArr)
           locations.addNode(l);
 
-        HashMap<Entry<Location, Location>, Integer> locationEdges = new LinkedHashMap<>();
+        HashMap<Entry<Location, Location>, Integer> locationEdges = new HashMap<>();
 
         // Edge values represent how much toxicity is taxed when traversed 
         locations.putEdgeValue(startingPoint, river, 5);
@@ -115,19 +115,17 @@ public class GameState {
         locations.putEdgeValue(roadFork, convenienceStore, 12);
         locations.putEdgeValue(opening, campFire, 5);
 
-        // for (Location l : locations.adjacentNodes(startingPoint)) 
-        //   System.out.println(l.getName());
-
         // Spawn player at starting point
         player = new Player(startingPoint);
 
         // Add player items as nouns
-        for (Item i : player.getItemList())
-          commandSystem.addNoun(i.getName());
+        player.itemList.keySet().forEach(i -> commandSystem.addNoun(i));
 
         // Adds all locations as a noun
-        for (Location l : locations.nodes())
-          commandSystem.addNoun(l.stringLocation().getKey());
+        locations.nodes().forEach(l -> commandSystem.addNoun(l.stringLocation().getKey()));
+
+        // Add available commands to player. I need to add verb descriptions. WIP
+        player.itemActions.keySet().forEach(v -> commandSystem.addVerb(v, "愛してる"));
 
         /* 
             Once the commandSystem knows about the item, we need to code what happens with each of the commands that can happen with the item.

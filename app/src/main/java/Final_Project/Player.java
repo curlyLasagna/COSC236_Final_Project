@@ -1,25 +1,40 @@
 package Final_Project;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.function.Consumer;
 
 public class Player {
-  private
-    int toxicity = 100;
-    Location currentLocation;
-    ArrayList<String> itemActions;
-    ArrayList<Item> itemList; 
+  private int toxicity = 100;
+  Location currentLocation;
+  HashMap<String, Item> itemList; 
+  HashMap<String, Consumer<? super Item> > itemActions;
+  HashMap<String, Consumer<? super Item> > itemActionsEntity;
 
 public Player(Location location) {
 
     // Load player with default items
-    itemList = new ArrayList<>();
-    itemActions = new ArrayList<>();
-    itemList.add(new Lighter());
-    itemList.add(new Wallet());
-    itemList.add(new Stick());
-    itemActions.add("light");
-    itemActions.add("throw");
-    itemActions.add("hit");
+    itemList = new HashMap<>();
+    itemActions = new HashMap<>();
+    itemList.put("lighter", new Lighter());
+    itemList.put("wallet", new Wallet());
+    itemList.put("stick", new Stick());
+
+    // itemAction verbs will run the anonymous functions
+    itemActions.put("light", (s -> {
+      System.out.println(s.getName() + " is being lit");
+      ((Lighter)s).setGas(((Lighter)s).getGas() - 1);
+      System.out.println("Current gas: " + ((Lighter)s).getGas());
+    }));
+
+    itemActions.put("throw", (s -> {
+
+    }));
+
+    // Could be a problem in the future
+    itemActions.put("hit", (s -> {
+
+    }));
+
     currentLocation = location;
     }
 
@@ -50,9 +65,4 @@ public Player(Location location) {
     public void walk(Location location) {
       currentLocation = location;
     }
-
-    public ArrayList<Item> getItemList() {
-      return itemList;
-    }
-
 }
