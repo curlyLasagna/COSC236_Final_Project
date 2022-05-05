@@ -32,6 +32,13 @@ public class App {
         // The main game loop.
         while (gameRunning) {
 
+            //ENDINGS:
+            // does not work lol
+            // if (state.player.getCurrentLocation().equals(state.locationArr[3])) {
+            //     System.out.println("You made it out.");
+            //     gameRunning = false;
+            // }
+
             // Gets input from the user in an array of strings that they typed in.
             String[] input = getCommand();
 

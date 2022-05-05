@@ -14,6 +14,7 @@ public class GameState {
     Player player;
     MutableValueGraph<Location, Integer> locations 
       = ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
+    Location [] locationArr;
     
     public static int DISPLAY_WIDTH = 80;
 
@@ -62,7 +63,7 @@ public class GameState {
           roadFork = 
             new Location("Road", "It's the main road. It's empty and dark");
 
-        Location [] locationArr = {
+        locationArr = new Location [] {
             new Location(
                 "River", 
                 "Flows very nice", 
@@ -126,6 +127,10 @@ public class GameState {
 
         // Add available commands to player. I need to add verb descriptions. WIP
         player.itemActions.keySet().forEach(v -> commandSystem.addVerb(v, "愛してる"));
+
+        commandSystem.addVerb("check", "Check inventory");
+        // commandSystem.addVerb("hit", "hit <entity>");
+        // commandSystem.addVerb("throw", "throw <item> <entity>");
 
         /* 
             Once the commandSystem knows about the item, we need to code what happens with each of the commands that can happen with the item.
