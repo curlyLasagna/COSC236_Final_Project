@@ -6,15 +6,18 @@ state of the game.
 package Final_Project;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Arrays;
+import java.util.List;
 
 import com.google.common.graph.*;
+
 
 public class GameState {
     CommandSystem commandSystem;
     Player player;
     MutableValueGraph<Location, Integer> locations 
       = ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
-    
+    List <Location> locationList;
     public static int DISPLAY_WIDTH = 80;
 
     /*
@@ -25,6 +28,7 @@ public class GameState {
 
         // Location nodes
         // This has got to go
+
         Location 
           river = 
             new Location("River", "Flows very nice", 
@@ -46,7 +50,7 @@ public class GameState {
             ),
 
           campFire = 
-            new Location("Campfire", "You're in a campfire surrounded by your friends. You're safe now"), 
+            new Location("Camp fire", "You're in a campfire surrounded by your friends. You're safe now"), 
 
           fallenTree = 
             new Location("Tree", "You see a fallen tree. It's also a fork that leads north or south",
@@ -62,7 +66,7 @@ public class GameState {
           roadFork = 
             new Location("Road", "It's the main road. It's empty and dark");
 
-        Location [] locationArr = {
+        locationList = Arrays.asList(
             new Location(
                 "River", 
                 "Flows very nice", 
@@ -97,13 +101,33 @@ public class GameState {
             ), 
             new Location("Road", 
                 "It's the main road. It's empty and dark")
-        };
+            );
 
         // Add location as nodes in the graph
-        for(Location l : locationArr)
-          locations.addNode(l);
+        locationList.forEach(l -> locations.addNode(l));
 
-        HashMap<Entry<Location, Location>, Integer> locationEdges = new HashMap<>();
+        String [] locationEdgeLocation = {
+          "start:river:5",
+          "start:tree:3",
+          "start:road:10",
+          "tree:opening:2",
+          "tree:home:14",
+          "road:home:6",
+          "fork:7-11:12",
+          "opening:camp fire:5"
+        };
+
+        HashMap<String, Integer> locationEdges = new HashMap<>();
+        for(int i = 0; i < locationEdgeLocation.length; i++) {
+          String [] split = locationEdgeLocation[i].split(":");
+          String left = split[0];
+          String right = split[1];
+          String label = left + ":" + right;
+          int edgeVal = Integer.parseInt(split[2]);
+
+          // locations.putEdgeValue(locationList.get(i).stringLocation().getValue());
+        }
+
 
         // Edge values represent how much toxicity is taxed when traversed 
         locations.putEdgeValue(startingPoint, river, 5);
@@ -121,16 +145,11 @@ public class GameState {
         // Add player items as nouns
         player.itemList.keySet().forEach(i -> commandSystem.addNoun(i));
 
-        // Adds all locations as a noun
+        // Adds all String key value of locations as a noun
         locations.nodes().forEach(l -> commandSystem.addNoun(l.stringLocation().getKey()));
 
         // Add available commands to player. I need to add verb descriptions. WIP
-        player.itemActions.keySet().forEach(v -> commandSystem.addVerb(v, "愛してる"));
-
-        /* 
-            Once the commandSystem knows about the item, we need to code what happens with each of the commands that can happen with the item.
-            See CommandSystem line 64 for what happens if you currently "look mat"
-        */
+        player.itemActions.keySet().forEach(v -> commandSystem.addVerb(v,"夜"));
     }
 
     Player getPlayer() {

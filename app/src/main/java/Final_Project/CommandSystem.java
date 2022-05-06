@@ -111,21 +111,22 @@ public class CommandSystem {
 
                   player.setToxicity(tax);
                   player.walk(x.getValue());
+                  System.out.println("Player toxicity: " + player.getToxicity());
                 }
 
               yield String.format(
-                  "You walked to %s\n%s", 
+                  "You walked to %s\n%s\n", 
                   state.player.currentLocation.stringLocation().getKey(),
                   state.player.currentLocation.getDesc()
                   );
             }
 
-            case "look", "l" -> "Skurt"; 
+            case "look", "l" -> {
+              yield player.itemList.get(noun).getDescription();
+            }
 
             default -> {
-              for(String s : player.itemActions.keySet())
-                if(verb.equals(s)) 
-                  player.itemActions.get(s).accept(player.itemList.get(noun));
+              player.itemActions.get(verb).accept(player.itemList.get(noun));
               yield "";
             } 
         };
@@ -133,7 +134,7 @@ public class CommandSystem {
     }
 
     // When a command is a Verb followed by two nouns, this method controls the result.
-    public void executeVerbNounNoun(String string, String string2, String string3) {
+    public void executeVerbNounNoun(String verb, String item, String entity) {
     // 3 nested switch statements
 
     }

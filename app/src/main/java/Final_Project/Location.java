@@ -27,7 +27,17 @@ public class Location {
     }
 
     public String getDesc() {
-        return description;
+      return (hasEntity) ? 
+        String.format(
+        """
+        There's a %s
+        %s
+        """,
+        entityInLocation.getName(),
+        entityInLocation.getDesc()
+          ) 
+        : 
+        description ;
     }
 
     public void setDesc(String description) {

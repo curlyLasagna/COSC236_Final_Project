@@ -29,11 +29,18 @@ public class App {
         // This controls if the game should continue running.
         boolean gameRunning = true;
 
+
         // The main game loop.
         while (gameRunning) {
 
             // Gets input from the user in an array of strings that they typed in.
             String[] input = getCommand();
+            // Subtract current toxicity with the edge value of the next node before walking
+            String end = (state.getPlayer().getToxicity() < 0) ? "Sober" : "Not Sober";
+            if (state.player.getCurrentLocation().equals(state.locationList.get(3))) {
+              
+            }
+            System.out.println(end);
 
             if (input.length < 1) {
                 System.out.println("Unknown command. Type ? for help.");

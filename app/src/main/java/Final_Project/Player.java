@@ -3,12 +3,15 @@ package Final_Project;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+import com.google.common.collect.Table;
+
 public class Player {
-  private int toxicity = 100;
+  private int toxicity = 20;
   Location currentLocation;
   HashMap<String, Item> itemList; 
   HashMap<String, Consumer<? super Item> > itemActions;
   HashMap<String, Consumer<? super Item> > itemActionsEntity;
+  Table<String, Item, Entity> x;
 
 public Player(Location location) {
 
@@ -26,13 +29,8 @@ public Player(Location location) {
       System.out.println("Current gas: " + ((Lighter)s).getGas());
     }));
 
+    //
     itemActions.put("throw", (s -> {
-
-    }));
-
-    // Could be a problem in the future
-    itemActions.put("hit", (s -> {
-
     }));
 
     currentLocation = location;
