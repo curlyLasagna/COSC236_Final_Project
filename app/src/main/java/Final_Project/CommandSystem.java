@@ -68,12 +68,25 @@ public class CommandSystem {
 
               for(int x = 0; x < l.size(); x++) {
                 System.out.println(l.get(x).stringLocation().getKey());
-          }
+              }
+              break;
         }
-        case "walk":
+        case "walk": {
           System.out.println("Walk where?");
+          break;
+        }
+        case "hit": {
+          player.hitAir();
+          break;
+        }
 
+        case "check": {
+          System.out.println("The items in your inventory include:");
+          player.itemList.keySet().forEach(i -> System.out.println("- " + i));
+          break;
+        }
         default: {
+          // player.itemActions.get(verb);
         }
       break;
       case "?":
@@ -123,7 +136,7 @@ public class CommandSystem {
 
             case "look", "l" -> {
               yield player.itemList.get(noun).getDescription();
-            }
+            } 
 
             default -> {
               player.itemActions.get(verb).accept(player.itemList.get(noun));

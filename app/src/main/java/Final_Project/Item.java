@@ -76,6 +76,15 @@ class Wallet extends Item {
     super(name, description);
     this.cards = cards;
   }
+
+  @Override
+  public String getDescription() {
+    String cardList = "";
+    for (int i = 0; i < cards.size(); i++ ) {
+      cardList += cards.get(i).getName() + " ";
+    }
+    return cardList;
+  }
 }
 
 class Stick extends Item {

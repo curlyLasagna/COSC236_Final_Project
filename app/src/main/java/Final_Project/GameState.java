@@ -25,7 +25,6 @@ public class GameState {
     */
     public GameState() {
         commandSystem = new CommandSystem(this);
-
         // Location nodes
         // This has got to go
 
@@ -149,7 +148,16 @@ public class GameState {
         locations.nodes().forEach(l -> commandSystem.addNoun(l.stringLocation().getKey()));
 
         // Add available commands to player. I need to add verb descriptions. WIP
-        player.itemActions.keySet().forEach(v -> commandSystem.addVerb(v,"夜"));
+        player.itemActions.keySet().forEach(v -> commandSystem.addVerb(v, "愛してる"));
+
+        commandSystem.addVerb("check", "Check inventory");
+        // commandSystem.addVerb("hit", "hit <entity>");
+        // commandSystem.addVerb("throw", "throw <item> <entity>");
+
+        /* 
+            Once the commandSystem knows about the item, we need to code what happens with each of the commands that can happen with the item.
+            See CommandSystem line 64 for what happens if you currently "look mat"
+        */
     }
 
     Player getPlayer() {
