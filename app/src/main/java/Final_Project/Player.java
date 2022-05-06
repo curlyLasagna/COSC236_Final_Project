@@ -40,6 +40,8 @@ public Player(Location location) {
 
     currentLocation = location;
     }
+    
+   
 
     void setToxicity(int toxicity) {
       this.toxicity = toxicity;

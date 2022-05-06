@@ -23,7 +23,6 @@ public class GameState {
     */
     public GameState() {
         commandSystem = new CommandSystem(this);
-
         // Location nodes
         // This has got to go
         Location 
