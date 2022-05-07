@@ -18,29 +18,39 @@ public Player(Location location) {
     itemList = new HashMap<>();
     itemActions = new HashMap<>();
     itemActionsEntity = new HashMap<>();
+    itemActionsItem = new HashMap<>();
     itemList.put("lighter", new Lighter());
     itemList.put("wallet", new Wallet());
     itemList.put("stick", new Stick());
 
-    // itemAction verbs will run the anonymous functions
+    // Add actions to interact with item
     itemActions.put("light", (i -> {
-      System.out.println(i.getName() + " is being lit");
-      ((Lighter)i).setGas(((Lighter)i).getGas() - 1);
-      System.out.println("Current gas: " + ((Lighter)i).getGas());
+      if(!(i instanceof Lighter))
+        System.err.println("Not a lighter");
+      else {
+        System.out.println(i.getName() + " is being lit");
+        ((Lighter)i).setGas(((Lighter)i).getGas() - 1);
+        System.out.println("Current gas: " + ((Lighter)i).getGas());
+      }
     }));
 
     itemActions.put("throw", (i -> {
-      itemList.remove(i.getName());
-      System.out.println("You threw " + i.getName());
-      i = null;
+      try {
+        itemList.remove(i.getName());
+        System.out.println("You threw " + i.getName());
+        i = null;
+      }
+      catch (NullPointerException npe) {
+        System.err.println("You threw it. Now you can't find it");
+      }
     }));
 
     itemActions.put("hit", (i -> {
       System.out.println("You hit the air with the " + i.getName());
-      this.toxicity = toxicity - 2;
+      toxicity -= 2;
     }));
 
-    // Bruh... I'm about to sleep writing all these
+    // Add actions that to interact with entities 
     itemActionsEntity.put("light", (i, e) -> {
       if(e instanceof Scary) {
         System.out.println(e.getName() + " backs away in surprise");
@@ -52,12 +62,21 @@ public Player(Location location) {
       }
 
       else if(e instanceof Tripy) {
-        System.out.println(e.getName() + " doesn't react. It simply burns");
+        System.out.printf(
+            """
+            %s doesn't react\n", 
+            It burns and shrinks to a distorted figure.
+            It produces an awful toxic smell.
+            It wasn't a peacock. It was a plastic bag
+            """,
+            e.getName());
+        e = null;
       }
       else
         System.out.println("You want me to light what?");
       });
 
+    // Add actions for items to interact with other items
     itemActionsItem.put("light", (x, y) -> {
       if(y instanceof Wallet) {
         System.out.println("You watch in delight as you burn your wallet");
@@ -89,6 +108,11 @@ public Player(Location location) {
 
     public void look() {
       currentLocation.getDesc();
+    }
+
+    public void check() {
+      System.out.println("The items in your inventory include:");
+      itemList.keySet().forEach(i -> System.out.println("- " + i));
     }
 
     public void look(Entity entity) {

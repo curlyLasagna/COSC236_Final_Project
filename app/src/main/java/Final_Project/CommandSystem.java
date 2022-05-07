@@ -34,18 +34,14 @@ public class CommandSystem {
         addVerb("?", "Help");
         addVerb("look", "Look at your current surroundings");
         addVerb("walk", "Walk to <Location>");
+        addVerb("check", "See what items you have");
     }
 
     // When a command is only one Verb this method controls the result.
     public void executeVerb(String verb) {
       Player player = state.getPlayer();
-      String resultString = "";
         switch (verb) {
           case "look": {
-            List<Location> l = 
-              new ArrayList<> (
-                state.getLocations()
-                  .adjacentNodes(player.getCurrentLocation()));
 
             System.out.printf(
               """
@@ -63,9 +59,10 @@ public class CommandSystem {
                 .getCurrentLocation()
                 .getDesc());
 
-              for(int x = 0; x < l.size(); x++) {
-                System.out.println(l.get(x).stringLocation().getKey());
-              }
+            // Print neighboring locations
+            state.getLocations()
+              .adjacentNodes(player.getCurrentLocation())
+              .forEach(l -> System.out.println(l.stringLocation().getKey()));
               break;
         }
         case "walk": {
@@ -87,8 +84,8 @@ public class CommandSystem {
         }
       break;
       case "?":
-        this.printHelp();
-        break;
+        System.out.println(printHelp());
+      break;
     }
   }
 
@@ -146,13 +143,9 @@ public class CommandSystem {
     // When a command is a Verb followed by two nouns, this method controls the result.
     public void executeVerbNounNoun(String verb, String item, String supercalifragilisticexpialidocious) {
       Player player = state.getPlayer();
-      if(player.itemActions.containsKey(supercalifragilisticexpialidocious)) {
-      }
-
-      else if(player.itemActionsEntity.containsKey(supercalifragilisticexpialidocious))
-        player.itemActionsEntity.get(verb).accept(
-            player.itemList.get(item), 
-            player.currentLocation.getEntityInLocation()
+      player.itemActionsEntity.get(verb).accept(
+        player.itemList.get(item), 
+        player.currentLocation.getEntityInLocation()
       );
     }
 
@@ -160,7 +153,7 @@ public class CommandSystem {
      * Prints out the help menu. Goes through all verbs and verbDescriptions
      * printing a list of all commands the user can use.
      */
-    public void printHelp() {
+    public String printHelp() {
         String s1 = "";
         while (s1.length() < DISPLAY_WIDTH)
             s1 += "-";
@@ -173,10 +166,14 @@ public class CommandSystem {
                 s2 += " ";
         }
 
-        System.out.println("\n\n" + s1 + "\n" + s2 + "\n" + s1 + "\n");
-        for (String v : verbs) {
-            System.out.printf("%-8s  %s", v, formatMenuString(verbDescription.get(verbs.indexOf(v))));
-        }
+        String wah = String.format("\n\n%s\n%s\n%s\n", s1, s2, s1);
+        verbs.forEach(v -> wah.concat(String.format("%-8s  %s", v, formatMenuString(verbDescription.get(verbs.indexOf(v))))));
+        return wah;
+
+        // System.out.println("\n\n" + s1 + "\n" + s2 + "\n" + s1 + "\n");
+        // for (String v : verbs) {
+        //     System.out.printf("%-8s  %s", v, formatMenuString(verbDescription.get(verbs.indexOf(v))));
+        // }
     }
 
     // Allows the client code to check to see if a verb is in the game.

@@ -41,11 +41,11 @@ public class GameState {
             new Location (
               "Start", 
               """
-              This is where I last saw my friends. I got distracted
+              This is where I last saw my friends. I need to find them
               There's a cliff to the north. I don't even want to try climbing up that
               A trail that lead towards the road in the south looks eerie
               A river to the east looks like a fun time
-              A big ol tree on the
+              A huge tree with no leaves 
               """
             ),
 
@@ -97,6 +97,7 @@ public class GameState {
             new Location(
                 "Opening", 
                 "An opening field", 
+                // Sets Normal entity in Opening
                 new Normal()
             ), 
             new Location("Road", 
@@ -104,7 +105,11 @@ public class GameState {
             );
 
         // Add location as nodes in the graph
-        locationList.forEach(l -> locations.addNode(l));
+        locationList.forEach(locations::addNode);
+
+        // HashMap<Map.Entry<Location, Location>, Integer> test = new HashMap<>(
+        //    new Location("") 
+        //     );
 
         String [] locationEdgeLocation = {
           "start:river:5",
@@ -147,7 +152,7 @@ public class GameState {
         player = new Player(startingPoint);
 
         // Add player items as nouns
-        player.itemList.keySet().forEach(i -> commandSystem.addNoun(i));
+        player.itemList.keySet().forEach(commandSystem::addNoun);
 
         // Adds all String key value of locations as a noun
         locations.nodes().forEach(l -> commandSystem.addNoun(l.stringLocation().getKey()));
@@ -156,11 +161,11 @@ public class GameState {
         locations.nodes().forEach(l -> commandSystem.addNoun(l.getEntityInLocation().getName()));
 
         // Add available commands to player.
-        player.itemActions.keySet().forEach(v -> 
-            commandSystem.addVerb(v, player.itemActions.keySet() + " <item>")
-          );
+        // player.itemActions.keySet().forEach(v -> 
+        //     commandSystem.addVerb(v, player.itemActions.str + " [item]")
+        //   );
 
-        commandSystem.addVerb("check", "Check inventory");
+
         // commandSystem.addVerb("hit", "hit <entity>");
         // commandSystem.addVerb("throw", "throw <item> <entity>");
 

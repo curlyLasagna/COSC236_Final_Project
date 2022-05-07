@@ -52,9 +52,9 @@ class Lighter extends Item {
 class Wallet extends Item {
   private ArrayList<Card> cards;
   Wallet() {
-   super("Wallet", "You reach into your pocket pull out your wallet.");
+   super("Wallet", "It's my wallet. Where did my licence go?");
    cards = new ArrayList<>();
-   cards.add(new Card("Credit Card", "Capital Two credit card", false)); 
+   cards.add(new Card("Credit Card", "Capital ∫5x(x√−x2)dx credit card", false)); 
    cards.add(new Card("Home Swipe", "Swipe card to get in my house", true));
   }
 
@@ -65,7 +65,7 @@ class Wallet extends Item {
 
   @Override
   public String getDescription() {
-    super.getDescription();
+    System.out.println(super.getDescription());
     String cardList = "";
     for (int i = 0; i < cards.size(); i++ ) {
       cardList += cards.get(i).getName() + " ";
@@ -78,7 +78,7 @@ class Stick extends Item {
   int durability = 3;
 
   Stick() {
-    super("Stick", "You picked up a stick that found on the ground.");
+    super("Stick", "It's a stick you found on the ground for self defense.\nIt looks flimsy");
   }
   
   Stick(String name, String description, int durability) {
@@ -94,5 +94,4 @@ class Card extends Item {
     super(name, description);
     this.accessHome = accessHome;
   }
-
 }
