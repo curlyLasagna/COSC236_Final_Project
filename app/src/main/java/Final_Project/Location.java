@@ -1,6 +1,4 @@
 package Final_Project;
-
-import java.util.Map.Entry;
 import java.util.Map;
 
 public class Location {
@@ -16,6 +14,7 @@ public class Location {
     public Location(String name, String description) {
       this.name = name;
       this.description = description;
+      entityInLocation = new Entity();
       this.hasEntity = false;
     }
 
@@ -51,5 +50,4 @@ public class Location {
     public Map.Entry<String, Location> stringLocation() {
       return Map.entry(name.toLowerCase(), this);
     }
-
 }

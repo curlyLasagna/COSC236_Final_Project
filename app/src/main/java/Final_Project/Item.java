@@ -29,7 +29,6 @@ public class Item {
 }
 
 // Subclasses
-
 class Lighter extends Item {
   private int gas;
 
@@ -48,19 +47,6 @@ class Lighter extends Item {
   }
 
   int getGas() { return gas; }
-
-  void light() {
-    System.out.println("Every spark is magic");
-    gas--;
-  }
-
-  void light(Entity e) {
-
-  }
-
-  void light(Item i) {
-
-  }
 }
 
 class Wallet extends Item {
@@ -79,6 +65,7 @@ class Wallet extends Item {
 
   @Override
   public String getDescription() {
+    super.getDescription();
     String cardList = "";
     for (int i = 0; i < cards.size(); i++ ) {
       cardList += cards.get(i).getName() + " ";

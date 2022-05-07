@@ -5,7 +5,9 @@ public class Entity {
     String name;
     String description;
 
-    Entity() {}
+    Entity() {
+      name = "bob";
+    }
 
     Entity(String name, String description) {
       this.name = name;
@@ -39,6 +41,14 @@ class Scary extends Entity {
     this.aggression = aggression;
   }
 
+  public void setAggression(int aggression) {
+    this.aggression = aggression;
+  }
+
+  public int getAggression() {
+    return aggression;
+  }
+
 }
 
 class Normal extends Entity {
@@ -46,7 +56,7 @@ class Normal extends Entity {
 
   Normal() {
     name = "Dog";
-    description = "Is that my dog? Did I forget to close the door? Should I get him?";
+    description = "Is that my dog? Did I forget to close the door? Should I go after him?";
     fear = 0;
   }
 

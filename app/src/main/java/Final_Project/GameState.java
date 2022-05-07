@@ -5,17 +5,18 @@ state of the game.
 */
 package Final_Project;
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.List;
 
 import com.google.common.graph.*;
 
 
 public class GameState {
-    CommandSystem commandSystem;
-    Player player;
-    MutableValueGraph<Location, Integer> locations 
+    private CommandSystem commandSystem;
+    private Player player;
+    private MutableValueGraph<Location, Integer> locations 
       = ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
     List <Location> locationList;
     public static int DISPLAY_WIDTH = 80;
@@ -117,12 +118,16 @@ public class GameState {
         };
 
         HashMap<String, Integer> locationEdges = new HashMap<>();
+        Map<String,Edge> all_edges = new TreeMap<String,Edge>();
         for(int i = 0; i < locationEdgeLocation.length; i++) {
           String [] split = locationEdgeLocation[i].split(":");
           String left = split[0];
           String right = split[1];
           String label = left + ":" + right;
           int edgeVal = Integer.parseInt(split[2]);
+          Edge edge = new Edge(left, right, edgeVal);
+          all_edges.put(label, edge);
+          // locations.putEdgeValue();
 
           // locations.putEdgeValue(locationList.get(i).stringLocation().getValue());
         }
@@ -147,8 +152,13 @@ public class GameState {
         // Adds all String key value of locations as a noun
         locations.nodes().forEach(l -> commandSystem.addNoun(l.stringLocation().getKey()));
 
-        // Add available commands to player. I need to add verb descriptions. WIP
-        player.itemActions.keySet().forEach(v -> commandSystem.addVerb(v, "愛してる"));
+        // Add entities
+        locations.nodes().forEach(l -> commandSystem.addNoun(l.getEntityInLocation().getName()));
+
+        // Add available commands to player.
+        player.itemActions.keySet().forEach(v -> 
+            commandSystem.addVerb(v, player.itemActions.keySet() + " <item>")
+          );
 
         commandSystem.addVerb("check", "Check inventory");
         // commandSystem.addVerb("hit", "hit <entity>");
@@ -168,4 +178,18 @@ public class GameState {
       return locations;
     }
 
+    CommandSystem getCommandSystem() {
+      return commandSystem;
+    }
+
+}
+
+class Edge {
+public int value;
+  public String left, right;
+  public Edge(String left, String right, int value) {
+    this.left = left;
+    this.right = right;
+    this.value = value;
+  }
 }

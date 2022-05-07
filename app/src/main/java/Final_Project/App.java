@@ -24,7 +24,7 @@ public class App {
         // Create needed objects for the game.
         GameState state = new GameState();
         // Store the command system for easy reference in the client code.
-        CommandSystem commandSystem = state.commandSystem;
+        CommandSystem commandSystem = state.getCommandSystem();
 
         // This controls if the game should continue running.
         boolean gameRunning = true;
@@ -42,13 +42,6 @@ public class App {
 
             // Gets input from the user in an array of strings that they typed in.
             String[] input = getCommand();
-            // Subtract current toxicity with the edge value of the next node before walking
-            String end = (state.getPlayer().getToxicity() < 0) ? "Sober" : "Not Sober";
-            if (state.player.getCurrentLocation().equals(state.locationList.get(3))) {
-              
-            }
-            System.out.println(end);
-
             if (input.length < 1) {
                 System.out.println("Unknown command. Type ? for help.");
 

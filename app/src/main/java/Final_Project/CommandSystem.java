@@ -31,9 +31,6 @@ public class CommandSystem {
         this.state = state;
         DISPLAY_WIDTH = GameState.DISPLAY_WIDTH;
         // Assign verbs and descriptions here
-        String [] verbArr = {
-          
-        };
         addVerb("?", "Help");
         addVerb("look", "Look at your current surroundings");
         addVerb("walk", "Walk to <Location>");
@@ -47,7 +44,7 @@ public class CommandSystem {
           case "look": {
             List<Location> l = 
               new ArrayList<> (
-                state.locations
+                state.getLocations()
                   .adjacentNodes(player.getCurrentLocation()));
 
             System.out.printf(
@@ -57,12 +54,12 @@ public class CommandSystem {
               You can walk towards:
               """, 
 
-              state.player
+              state.getPlayer()
                 .getCurrentLocation()
                 .stringLocation()
                 .getKey(),
 
-              state.player
+              state.getPlayer()
                 .getCurrentLocation()
                 .getDesc());
 
@@ -106,7 +103,7 @@ public class CommandSystem {
 
               // Store string key and location value 
               ArrayList<Map.Entry <String, Location> > s = new ArrayList<>();
-              state.locations.adjacentNodes(
+              state.getLocations().adjacentNodes(
                 player
                 .getCurrentLocation())
                 .forEach(x -> s.add(x.stringLocation()));
@@ -116,7 +113,7 @@ public class CommandSystem {
               for(Map.Entry<String, Location> x : s) 
                 if(noun.equals(x.getKey())) {
                   int tax = 
-                    state.player.getToxicity() - state.locations
+                    state.getPlayer().getToxicity() - state.getLocations()
                     .edgeValue(
                         player.getCurrentLocation(), 
                         x.getValue())
@@ -129,8 +126,8 @@ public class CommandSystem {
 
               yield String.format(
                   "You walked to %s\n%s\n", 
-                  state.player.currentLocation.stringLocation().getKey(),
-                  state.player.currentLocation.getDesc()
+                  state.getPlayer().currentLocation.stringLocation().getKey(),
+                  state.getPlayer().currentLocation.getDesc()
                   );
             }
 
@@ -147,9 +144,16 @@ public class CommandSystem {
     }
 
     // When a command is a Verb followed by two nouns, this method controls the result.
-    public void executeVerbNounNoun(String verb, String item, String entity) {
-    // 3 nested switch statements
+    public void executeVerbNounNoun(String verb, String item, String supercalifragilisticexpialidocious) {
+      Player player = state.getPlayer();
+      if(player.itemActions.containsKey(supercalifragilisticexpialidocious)) {
+      }
 
+      else if(player.itemActionsEntity.containsKey(supercalifragilisticexpialidocious))
+        player.itemActionsEntity.get(verb).accept(
+            player.itemList.get(item), 
+            player.currentLocation.getEntityInLocation()
+      );
     }
 
     /*
