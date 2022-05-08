@@ -31,7 +31,7 @@ class Scary extends Entity {
   int aggression;
   
   Scary() {
-    name = "Kaonishi";
+    name = "kaonishi";
     description = "Scary";
     aggression = 0;
   }
@@ -55,7 +55,7 @@ class Normal extends Entity {
   int fear; 
 
   Normal() {
-    name = "Dog";
+    name = "dog";
     description = "Is that my dog? Did I forget to close the door? Should I go after him?";
     fear = 0;
   }
@@ -64,14 +64,13 @@ class Normal extends Entity {
     super(name, description);
     this.fear = fear;
   }
-
 }
 
 class Tripy extends Entity {
   int integrity;
 
   Tripy() {
-    name = "Peacock";
+    name = "peacock";
     description = "A Peacock sitting in a tree. It's majestic!";
     integrity = 5;
   }

@@ -35,11 +35,14 @@ public class App {
 
             //ENDINGS:
             // does not work lol
-            // if (state.player.getCurrentLocation().equals(state.locationArr[3])) {
-            //     System.out.println("You made it out.");
-            //     gameRunning = false;
-            // }
+            if (state.getPlayer().getCurrentLocation().equals(state.locationList.get("campfire"))) {
+                System.out.println("You made it out.");
+                System.exit(0);
+                gameRunning = false;
+            }
 
+            // Campfire location
+            state.locationList.get("campfire");
             // Gets input from the user in an array of strings that they typed in.
             String[] input = getCommand();
             if (input.length < 1) {

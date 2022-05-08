@@ -5,174 +5,108 @@ state of the game.
 */
 package Final_Project;
 import java.util.HashMap;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.List;
-
 import com.google.common.graph.*;
-
 
 public class GameState {
     private CommandSystem commandSystem;
     private Player player;
     private MutableValueGraph<Location, Integer> locations 
       = ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
-    List <Location> locationList;
+    HashMap <String, Location> locationList;
     public static int DISPLAY_WIDTH = 80;
 
-    /*
-        GameState Constructor
-    */
     public GameState() {
         commandSystem = new CommandSystem(this);
         // Location nodes
-        // This has got to go
-
-        Location 
-          river = 
+        // Didn't have time to think of a better implementation. This is cringe
+        locationList = new HashMap<>();
+        // Create locations with their respective entities
+        locationList.put("river", 
             new Location("River", "Flows very nice", 
-            new Scary()),
+              new Scary()));
 
-          convenienceStore = 
-            new Location("7-11", "A convenience store? This is not okay. Why am I here?"), 
+        locationList.put("conbini", 
+            new Location("Store", 
+              "A convenience store? This is not okay. Why am I here?")); 
 
-          startingPoint = 
-            new Location (
-              "Start", 
+        locationList.put("start", 
+            new Location("startPoint",               
               """
               This is where I last saw my friends. I need to find them
               There's a cliff to the north. I don't even want to try climbing up that
               A trail that lead towards the road in the south looks eerie
-              A river to the east looks like a fun time
-              A huge tree with no leaves 
+              A river to my right looks like a fun time
+              A big scary tree  
               """
-            ),
+              ));
 
-          campFire = 
-            new Location("Camp fire", "You're in a campfire surrounded by your friends. You're safe now"), 
+        locationList.put("tree", 
+            new Location("Tree", 
+              "You see a fallen tree. It's also a fork that leads to an opening or go through the woods that leads to a house",
+              new Tripy()
+              ));
 
-          fallenTree = 
-            new Location("Tree", "You see a fallen tree. It's also a fork that leads north or south",
-            new Tripy()), 
+        locationList.put("campfire", 
+            new Location("Campfire", 
+              "You're in a campfire surrounded by your friends. You're safe now"
+              ));
 
-          home =
-            new Location("Home", "You've reached home. You feel safe but alone."), 
-
-          opening =
-            new Location("Opening", "An opening field", 
-            new Normal()), 
-
-          roadFork = 
-            new Location("Road", "It's the main road. It's empty and dark");
-
-        locationList = Arrays.asList(
-            new Location(
-                "River", 
-                "Flows very nice", 
-            // Sets scary entity in River
-            new Scary()
-            ),
-            new Location(
-                "7-11", 
-                "This is not okay. Why am I here?"), 
-            new Location (
-              "Starting point", 
+        locationList.put("home", 
+            // Prompt the user if they want to go home
+            new Location("Home", 
               """
-              There's a cliff to the north. I don't even want to try climbing up that
+              You've reached home. You feel safe but alone.
+              Do you want to go in? 
               """
-            ),
-            new Location(
-                "Campfire", 
-                "You're in a campfire surrounded by your friends. You're safe now"), 
-            new Location(
-                "Fallen tree", 
-                "You see a fallen tree. It's also a fork that leads north or south",
-                // Sets Tripy entity in Fallen Tree
-                new Tripy()
-            ), 
-            new Location(
-                "Home", 
-                "You've reached home. You feel safe but alone."), 
-            new Location(
-                "Opening", 
-                "An opening field", 
-                // Sets Normal entity in Opening
-                new Normal()
-            ), 
+              ));
+
+        locationList.put("road", 
             new Location("Road", 
-                "It's the main road. It's empty and dark")
-            );
+              "It's the main road. It's empty and dark"
+              ));
+
+        locationList.put("opening", 
+            new Location("Opening", 
+              "Empty field of beautiful flowing grass. Almost like an ocean"
+              ));
 
         // Add location as nodes in the graph
-        locationList.forEach(locations::addNode);
-
-        // HashMap<Map.Entry<Location, Location>, Integer> test = new HashMap<>(
-        //    new Location("") 
-        //     );
-
-        String [] locationEdgeLocation = {
-          "start:river:5",
-          "start:tree:3",
-          "start:road:10",
-          "tree:opening:2",
-          "tree:home:14",
-          "road:home:6",
-          "fork:7-11:12",
-          "opening:camp fire:5"
-        };
-
-        HashMap<String, Integer> locationEdges = new HashMap<>();
-        Map<String,Edge> all_edges = new TreeMap<String,Edge>();
-        for(int i = 0; i < locationEdgeLocation.length; i++) {
-          String [] split = locationEdgeLocation[i].split(":");
-          String left = split[0];
-          String right = split[1];
-          String label = left + ":" + right;
-          int edgeVal = Integer.parseInt(split[2]);
-          Edge edge = new Edge(left, right, edgeVal);
-          all_edges.put(label, edge);
-          // locations.putEdgeValue();
-
-          // locations.putEdgeValue(locationList.get(i).stringLocation().getValue());
-        }
-
-
-        // Edge values represent how much toxicity is taxed when traversed 
-        locations.putEdgeValue(startingPoint, river, 5);
-        locations.putEdgeValue(startingPoint, fallenTree, 3);
-        locations.putEdgeValue(startingPoint, roadFork, 10);
-        locations.putEdgeValue(fallenTree, opening, 2);
-        locations.putEdgeValue(fallenTree, home, 14);
-        locations.putEdgeValue(roadFork, home, 6);
-        locations.putEdgeValue(roadFork, convenienceStore, 12);
-        locations.putEdgeValue(opening, campFire, 5);
+        locationList.forEach((k, v) -> locations.addNode(v.stringLocation().getValue()));
+        // I need to refactor stringLocation to something better but... nah
+        locationList.forEach((k, v) -> commandSystem.addNoun(v.stringLocation().getKey()));
+        
+        /* Yeah, I know, I could refactor this to be a tad bit tidier but 
+         * in the spirit of Java's verbosity, here's a monstrosity.
+         * Edge values represent how much toxicity is taxed when traversed
+         */
+        locations.putEdgeValue(locationList.get("start"), locationList.get("river"), 5);
+        locations.putEdgeValue(locationList.get("start"), locationList.get("road"), 10);
+        locations.putEdgeValue(locationList.get("start"), locationList.get("tree"), 6);
+        locations.putEdgeValue(locationList.get("tree"), locationList.get("opening"), 2);
+        locations.putEdgeValue(locationList.get("tree"), locationList.get("home"), 14);
+        locations.putEdgeValue(locationList.get("road"), locationList.get("home"), 5);
+        locations.putEdgeValue(locationList.get("road"), locationList.get("conbini"), 5);
+        locations.putEdgeValue(locationList.get("opening"), locationList.get("campfire"), 5);
 
         // Spawn player at starting point
-        player = new Player(startingPoint);
+        player = new Player(locationList.get("start"));
 
         // Add player items as nouns
         player.itemList.keySet().forEach(commandSystem::addNoun);
 
-        // Adds all String key value of locations as a noun
+        // Adds all String key value of locations as nouns
         locations.nodes().forEach(l -> commandSystem.addNoun(l.stringLocation().getKey()));
 
-        // Add entities
+        // Add entities as nouns
         locations.nodes().forEach(l -> commandSystem.addNoun(l.getEntityInLocation().getName()));
 
         // Add available commands to player.
-        // player.itemActions.keySet().forEach(v -> 
-        //     commandSystem.addVerb(v, player.itemActions.str + " [item]")
-        //   );
-
+        player.itemActions.keySet().forEach(v ->
+            commandSystem.addVerb(v, player.itemActions.get(v) + " [item]")
+          );
 
         // commandSystem.addVerb("hit", "hit <entity>");
         // commandSystem.addVerb("throw", "throw <item> <entity>");
-
-        /* 
-            Once the commandSystem knows about the item, we need to code what happens with each of the commands that can happen with the item.
-            See CommandSystem line 64 for what happens if you currently "look mat"
-        */
     }
 
     Player getPlayer() {
@@ -186,15 +120,4 @@ public class GameState {
     CommandSystem getCommandSystem() {
       return commandSystem;
     }
-
-}
-
-class Edge {
-public int value;
-  public String left, right;
-  public Edge(String left, String right, int value) {
-    this.left = left;
-    this.right = right;
-    this.value = value;
-  }
 }

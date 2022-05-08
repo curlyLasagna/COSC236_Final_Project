@@ -33,7 +33,7 @@ class Lighter extends Item {
   private int gas;
 
   Lighter () {
-    super("Lighter", "You have a white lighter.");
+    super("lighter", "You have a white lighter.");
     this.gas = 3;
   }
 
@@ -52,7 +52,7 @@ class Lighter extends Item {
 class Wallet extends Item {
   private ArrayList<Card> cards;
   Wallet() {
-   super("Wallet", "It's my wallet. Where did my licence go?");
+   super("wallet", "It's my wallet. Where did my licence go?");
    cards = new ArrayList<>();
    cards.add(new Card("Credit Card", "Capital ∫5x(x√−x2)dx credit card", false)); 
    cards.add(new Card("Home Swipe", "Swipe card to get in my house", true));
@@ -78,7 +78,7 @@ class Stick extends Item {
   int durability = 3;
 
   Stick() {
-    super("Stick", "It's a stick you found on the ground for self defense.\nIt looks flimsy");
+    super("stick", "It's a stick you found on the ground for self defense.\nIt looks flimsy");
   }
   
   Stick(String name, String description, int durability) {

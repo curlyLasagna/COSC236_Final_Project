@@ -47,6 +47,10 @@ public class Location {
       return entityInLocation;
     }
 
+    public void setHasEntity(boolean hasEntity) {
+      this.hasEntity = hasEntity;
+    }
+
     public Map.Entry<String, Location> stringLocation() {
       return Map.entry(name.toLowerCase(), this);
     }

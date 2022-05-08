@@ -10,10 +10,10 @@ public class Player {
   HashMap<String, Consumer<? super Item> > itemActions;
   HashMap<String, BiConsumer<? super Item, ? super Item> > itemActionsItem;
   HashMap<String, BiConsumer<? super Item, ? super Entity> > itemActionsEntity;
+  HashMap<String, BiConsumer<? super Item, ?> > itemActionObj;
 
 public Player(Location location) {
 
-    // This is so boring 🥱
     // Load player with default items
     itemList = new HashMap<>();
     itemActions = new HashMap<>();
@@ -25,40 +25,40 @@ public Player(Location location) {
 
     // Add actions to interact with item
     itemActions.put("light", (i -> {
-      if(!(i instanceof Lighter))
-        System.err.println("Not a lighter");
-      else {
         System.out.println(i.getName() + " is being lit");
         ((Lighter)i).setGas(((Lighter)i).getGas() - 1);
         System.out.println("Current gas: " + ((Lighter)i).getGas());
-      }
     }));
 
     itemActions.put("throw", (i -> {
       try {
         itemList.remove(i.getName());
-        System.out.println("You threw " + i.getName());
+        System.out.print("You threw " + i.getName());
         i = null;
       }
       catch (NullPointerException npe) {
-        System.err.println("You threw it. Now you can't find it");
+        System.err.print("You threw it. Now you can't find it");
       }
     }));
 
     itemActions.put("hit", (i -> {
-      System.out.println("You hit the air with the " + i.getName());
+      System.out.print("You hit the air with the " + i.getName());
       toxicity -= 2;
     }));
 
     // Add actions that to interact with entities 
     itemActionsEntity.put("light", (i, e) -> {
+      // If entity is Scary
       if(e instanceof Scary) {
         System.out.println(e.getName() + " backs away in surprise");
         ((Scary)e).setAggression(((Scary)e).getAggression() + 25);
       }
 
+      // If entity is Normal
       else if(e instanceof Normal) {
         System.out.println(e.getName() + " runs away before you could approach it");
+
+        // Add effects here
       }
 
       else if(e instanceof Tripy) {
@@ -78,8 +78,12 @@ public Player(Location location) {
 
     // Add actions for items to interact with other items
     itemActionsItem.put("light", (x, y) -> {
-      if(y instanceof Wallet) {
+      if(x instanceof Lighter && y instanceof Wallet) {
         System.out.println("You watch in delight as you burn your wallet");
+      }
+
+      else if(x instanceof Stick && y instanceof Lighter) {
+
       }
     });
 

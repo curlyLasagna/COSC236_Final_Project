@@ -33,7 +33,7 @@ public class CommandSystem {
         // Assign verbs and descriptions here
         addVerb("?", "Help");
         addVerb("look", "Look at your current surroundings");
-        addVerb("walk", "Walk to <Location>");
+        addVerb("walk", "Walk to [Location]");
         addVerb("check", "See what items you have");
     }
 
@@ -63,12 +63,15 @@ public class CommandSystem {
             state.getLocations()
               .adjacentNodes(player.getCurrentLocation())
               .forEach(l -> System.out.println(l.stringLocation().getKey()));
-              break;
+        break;
         }
+
         case "walk": {
+          // If not in the neighboring location, just print the description of the current location
           System.out.println("Walk where?");
           break;
         }
+
         case "hit": {
           player.hitAir();
           break;
@@ -79,12 +82,12 @@ public class CommandSystem {
           player.itemList.keySet().forEach(i -> System.out.println("- " + i));
           break;
         }
+        case "?":
+          printHelp();
+        break;
         default: {
           // player.itemActions.get(verb);
         }
-      break;
-      case "?":
-        System.out.println(printHelp());
       break;
     }
   }
@@ -97,8 +100,8 @@ public class CommandSystem {
         resultString = 
           switch (verb) {
             case "walk", "w" -> {
-
-              // Store string key and location value 
+              // Refactor needed
+              // Store string(location name) key and location value 
               ArrayList<Map.Entry <String, Location> > s = new ArrayList<>();
               state.getLocations().adjacentNodes(
                 player
@@ -107,6 +110,7 @@ public class CommandSystem {
 
               /* If player travels, reduce player toxicity 
                * Sets the player's current location to input noun */
+              
               for(Map.Entry<String, Location> x : s) 
                 if(noun.equals(x.getKey())) {
                   int tax = 
@@ -118,7 +122,6 @@ public class CommandSystem {
 
                   player.setToxicity(tax);
                   player.walk(x.getValue());
-                  System.out.println("Player toxicity: " + player.getToxicity());
                 }
 
               yield String.format(
@@ -129,8 +132,14 @@ public class CommandSystem {
             }
 
             case "look", "l" -> {
-              yield player.itemList.get(noun).getDescription();
-            } 
+              String itemDescription = "";
+              try {
+                itemDescription = player.itemList.get(noun).getDescription();
+              } catch (NullPointerException e) {
+                System.err.print("Look at what?");
+                }
+                yield itemDescription;
+              }
 
             default -> {
               player.itemActions.get(verb).accept(player.itemList.get(noun));
@@ -142,6 +151,7 @@ public class CommandSystem {
 
     // When a command is a Verb followed by two nouns, this method controls the result.
     public void executeVerbNounNoun(String verb, String item, String supercalifragilisticexpialidocious) {
+      // Nullify the entities if they're dead and reomve them from description
       Player player = state.getPlayer();
       player.itemActionsEntity.get(verb).accept(
         player.itemList.get(item), 
@@ -153,7 +163,7 @@ public class CommandSystem {
      * Prints out the help menu. Goes through all verbs and verbDescriptions
      * printing a list of all commands the user can use.
      */
-    public String printHelp() {
+    public void printHelp() {
         String s1 = "";
         while (s1.length() < DISPLAY_WIDTH)
             s1 += "-";
@@ -166,14 +176,9 @@ public class CommandSystem {
                 s2 += " ";
         }
 
-        String wah = String.format("\n\n%s\n%s\n%s\n", s1, s2, s1);
-        verbs.forEach(v -> wah.concat(String.format("%-8s  %s", v, formatMenuString(verbDescription.get(verbs.indexOf(v))))));
-        return wah;
-
-        // System.out.println("\n\n" + s1 + "\n" + s2 + "\n" + s1 + "\n");
-        // for (String v : verbs) {
-        //     System.out.printf("%-8s  %s", v, formatMenuString(verbDescription.get(verbs.indexOf(v))));
-        // }
+        System.out.println("\n\n" + s1 + "\n" + s2 + "\n" + s1 + "\n");
+                for (String v : verbs) 
+                    System.out.printf("%-8s  %s", v, formatMenuString(verbDescription.get(verbs.indexOf(v))));
     }
 
     // Allows the client code to check to see if a verb is in the game.
