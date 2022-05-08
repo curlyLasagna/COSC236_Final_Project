@@ -125,7 +125,7 @@ public class CommandSystem {
                 }
 
               yield String.format(
-                  "You walked to %s\n%s\n", 
+                  "You walked to %s%n%s%n", 
                   state.getPlayer().currentLocation.stringLocation().getKey(),
                   state.getPlayer().currentLocation.getDesc()
                   );
@@ -152,15 +152,13 @@ public class CommandSystem {
     // When a command is a Verb followed by two nouns, this method controls the result.
     public void executeVerbNounNoun(String verb, String item, String supercalifragilisticexpialidocious) {
       // Nullify the entities if they're dead and reomve them from description
+      // Need to find a way to differentiate the ojb being acted upon e.g. Item & Entity
       Player player = state.getPlayer();
-      player.itemActionsEntity.get(verb).accept(
-        player.itemList.get(item), 
-        player.currentLocation.getEntityInLocation()
+        player.itemActionsEntity.get(verb).accept(
+          player.itemList.get(item), 
+          player.currentLocation.getEntityInLocation()
       );
     }
-
-    
-    
 
     /*
      * Prints out the help menu. Goes through all verbs and verbDescriptions

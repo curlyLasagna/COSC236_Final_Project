@@ -12,7 +12,7 @@ public class GameState {
     private Player player;
     private MutableValueGraph<Location, Integer> locations 
       = ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
-    HashMap <String, Location> locationList;
+    public HashMap <String, Location> locationList;
     public static int DISPLAY_WIDTH = 80;
 
     public GameState() {
@@ -85,8 +85,8 @@ public class GameState {
         locations.putEdgeValue(locationList.get("tree"), locationList.get("opening"), 2);
         locations.putEdgeValue(locationList.get("tree"), locationList.get("home"), 14);
         locations.putEdgeValue(locationList.get("road"), locationList.get("home"), 5);
-        locations.putEdgeValue(locationList.get("road"), locationList.get("conbini"), 5);
-        locations.putEdgeValue(locationList.get("opening"), locationList.get("campfire"), 5);
+        locations.putEdgeValue(locationList.get("road"), locationList.get("conbini"), 7);
+        locations.putEdgeValue(locationList.get("opening"), locationList.get("campfire"), 9);
 
         // Spawn player at starting point
         player = new Player(locationList.get("start"));
@@ -109,9 +109,9 @@ public class GameState {
         commandSystem.addVerb("use", "use <item> <entity>");
 
         // Add available commands to player.
-        player.itemActions.keySet().forEach(v ->
-            commandSystem.addVerb(v, player.itemActions.get(v) + " [item]")
-          );
+        // player.itemActions.keySet().forEach(v ->
+        //     commandSystem.addVerb(v, player.itemActions.get(v) + " [item]")
+        //   );
 
         // commandSystem.addVerb("hit", "hit <entity>");
         // commandSystem.addVerb("throw", "throw <item> <entity>");

@@ -10,7 +10,6 @@ public class Player {
   HashMap<String, Consumer<? super Item> > itemActions;
   HashMap<String, BiConsumer<? super Item, ? super Item> > itemActionsItem;
   HashMap<String, BiConsumer<? super Item, ? super Entity> > itemActionsEntity;
-  HashMap<String, BiConsumer<? super Item, ?> > itemActionObj;
 
 public Player(Location location) {
 
@@ -62,7 +61,6 @@ public Player(Location location) {
       else if(e instanceof Normal) {
         System.out.println(e.getName() + " runs away before you could approach it");
 
-        // Add effects here
       }
 
       else if(e instanceof Tripy) {

@@ -34,7 +34,6 @@ public class App {
         while (gameRunning) {
 
             //ENDINGS:
-            // does not work lol
             if (state.getPlayer().getCurrentLocation().equals(state.locationList.get("campfire"))) {
                 System.out.println("You made it out.");
                 System.exit(0);

@@ -71,7 +71,7 @@ class Tripy extends Entity {
 
   Tripy() {
     name = "peacock";
-    description = "A Peacock sitting in a tree. It's majestic!";
+    description = "A peacock sitting in a tree. It's majestic!";
     integrity = 5;
   }
 
