@@ -29,15 +29,120 @@ public class App {
         // This controls if the game should continue running.
         boolean gameRunning = true;
 
+        // Starting info
+        System.out.println(
+            """
+            You started the night off with your friends around a campfire.
+            It had already started getting dark by the time you arrived.
+            After taking some questionable substances with your friends,
+            you have the great idea to wander off by yourself into the 
+            surrounding woods. You can't think clearly and soon you lose
+            sight of the campfire and the group.
+
+            You're now left alone in the middle of the woods. You want to find your 
+            friends again before the effects of those substances wear off. Otherwise,
+            this whole situation will be a lot worse if you have to deal with it
+            while being completley sober.
+            
+            Honestly, anything is better than being out here alone.
+
+            Try to make it back to the campfire, or at least somewhere,
+            before your toxicity runs out. Certain movements and interactions
+            will lower your toxicity so be wise.
+            """);
+
 
         // The main game loop.
         while (gameRunning) {
 
             //ENDINGS:
-            if (state.getPlayer().getCurrentLocation().equals(state.locationList.get("campfire"))) {
-                System.out.println("You made it out.");
+            // good ending with the campfire
+            if (state.getPlayer().getCurrentLocation().equals(state.locationList.get("campfire"))) { //checks if player location is campfire
+                System.out.println(
+                    """
+                    Suddenly you see the glow of the campfire from earlier.
+                    You hear your friends as you approach the site.
+                    You've managed to find your way through the forest and can
+                    now continue to have a good night.
+
+                    GAME OVER
+                    """);
                 System.exit(0);
-                gameRunning = false;
+            }
+
+            // ending for toxicity being 0 and sober
+            if (state.getPlayer().getToxicity() == 0) { // if player is sober, toxicity == 0
+                System.out.println(
+                    """
+                    You've walked around so much and it's been so long since
+                    you lost your friends. The effects of those
+                    substances from earlier have worn off, and now you're
+                    cold, alone, tired, and sober. Your head is pounding
+                    and you just want to sleep. You lie down and close your eyes.
+                    Goodnight.
+
+                    GAME OVER
+                    """);
+                System.exit(0);
+            }
+
+            // bad ending with 7-11 store
+            if (state.getPlayer().getCurrentLocation().equals(state.locationList.get("conbini"))) { // if player location is store
+                System.out.print("Do you want to enter? (yes or no) > ");
+                String choice = "";
+                // player chooses if they want to enter the store or not
+                while(!choice.equals("yes") || !choice.equals("no")) {
+                    choice = in.nextLine();
+                    choice = choice.toLowerCase();
+                    if (choice.equals("yes")) {
+                        System.out.println(
+                            """
+                            Oh no. Coming to 7-11 was the worst decision you could have made.
+                            The are cops in here, and they immediatley recognize you.
+                            Turns out you're a wanted crimminal for a multitide of reasons and
+                            they arrest you. What a horrible way to end the night.
+            
+                            GAME OVER
+                            """
+                        );
+                        System.exit(0);
+                    } else if (choice.equals("no")) {
+                        System.out.println("You decide to wander around more.");
+                        break;
+                    } else {
+                        System.out.println("Invalid choice. Yes or no?");
+                        System.out.print("Do you want to enter? > ");
+                    }
+                }
+            }
+
+            // neutral ending at players home
+            if (state.getPlayer().getCurrentLocation().equals(state.locationList.get("home"))) { // if player location is home
+                System.out.print("Do you want to enter? (yes or no) > ");
+                String choice = "";
+                // player chooses if they want to enter the home or not
+                while(!choice.equals("yes") || !choice.equals("no")) {
+                    choice = in.nextLine();
+                    choice = choice.toLowerCase();
+                    if (choice.equals("yes")) {
+                        System.out.println(
+                            """
+                            You walk into your house and get extremley tired.
+                            You can't be bothered to try and find your friends again
+                            so you decide to call it a night and pass out on the couch.
+
+                            GAME OVER
+                            """
+                        );
+                        System.exit(0);
+                    } else if (choice.equals("no")) {
+                        System.out.println("You decide to wander around more.");
+                        break;
+                    } else {
+                        System.out.println("Invalid choice. Yes or no?");
+                        System.out.print("Do you want to enter? > ");
+                    }
+                }
             }
 
             // Campfire location
