@@ -100,6 +100,14 @@ public class GameState {
         // Add entities as nouns
         locations.nodes().forEach(l -> commandSystem.addNoun(l.getEntityInLocation().getName()));
 
+        // Adds commands
+        commandSystem.addVerb("look", "look, look <item>, look <entity>");
+        commandSystem.addVerb("walk", "walk <location>");
+        commandSystem.addVerb("hit", "hit, hit <item> <entity>");
+        commandSystem.addVerb("throw", "throw <item>");
+        commandSystem.addVerb("light", "light <item>, light <item> <entity>");
+        commandSystem.addVerb("use", "use <item> <entity>");
+
         // Add available commands to player.
         player.itemActions.keySet().forEach(v ->
             commandSystem.addVerb(v, player.itemActions.get(v) + " [item]")

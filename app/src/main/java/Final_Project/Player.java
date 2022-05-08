@@ -27,7 +27,11 @@ public Player(Location location) {
     itemActions.put("light", (i -> {
         System.out.println(i.getName() + " is being lit");
         ((Lighter)i).setGas(((Lighter)i).getGas() - 1);
-        System.out.println("Current gas: " + ((Lighter)i).getGas());
+        if (((Lighter)i).getGas() > 0) {
+          System.out.println("Current gas: " + ((Lighter)i).getGas());
+        } else {
+          System.out.println("Out of gas");
+        }
     }));
 
     itemActions.put("throw", (i -> {

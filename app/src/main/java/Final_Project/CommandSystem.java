@@ -159,6 +159,9 @@ public class CommandSystem {
       );
     }
 
+    
+    
+
     /*
      * Prints out the help menu. Goes through all verbs and verbDescriptions
      * printing a list of all commands the user can use.

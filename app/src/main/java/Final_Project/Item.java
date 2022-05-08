@@ -66,7 +66,7 @@ class Wallet extends Item {
   @Override
   public String getDescription() {
     System.out.println(super.getDescription());
-    String cardList = "";
+    String cardList = "Cards in wallet: ";
     for (int i = 0; i < cards.size(); i++ ) {
       cardList += cards.get(i).getName() + " ";
     }
