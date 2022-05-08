@@ -12,6 +12,8 @@ import java.util.List;
 
 import com.google.common.graph.*;
 
+// import apple.laf.JRSUIConstants.Hit;
+
 
 public class GameState {
     private CommandSystem commandSystem;
@@ -50,7 +52,7 @@ public class GameState {
             ),
 
           campFire = 
-            new Location("Camp fire", "You're in a campfire surrounded by your friends. You're safe now"), 
+            new Location("Campfire", "You're in a campfire surrounded by your friends. You're safe now"), 
 
           fallenTree = 
             new Location("Tree", "You see a fallen tree. It's also a fork that leads north or south",
@@ -159,6 +161,14 @@ public class GameState {
 
         // Add entities
         locations.nodes().forEach(l -> commandSystem.addNoun(l.getEntityInLocation().getName()));
+
+        // Adds commands
+        commandSystem.addVerb("look", "look, look <item>, look <entity>");
+        commandSystem.addVerb("walk", "walk <location>");
+        commandSystem.addVerb("hit", "hit, hit <item> <entity>");
+        commandSystem.addVerb("throw", "throw <item>");
+        commandSystem.addVerb("light", "light <item>, light <item> <entity>");
+        commandSystem.addVerb("use", "use <item> <entity>");
 
         // Add available commands to player.
         // player.itemActions.keySet().forEach(v -> 

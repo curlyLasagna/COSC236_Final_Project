@@ -30,7 +30,11 @@ public Player(Location location) {
       else {
         System.out.println(i.getName() + " is being lit");
         ((Lighter)i).setGas(((Lighter)i).getGas() - 1);
+        if (((Lighter)i).getGas() > 0) {
         System.out.println("Current gas: " + ((Lighter)i).getGas());
+        } else {
+          System.out.println("Out of gas");
+        }
       }
     }));
 

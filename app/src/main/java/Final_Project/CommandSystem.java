@@ -149,10 +149,15 @@ public class CommandSystem {
       );
     }
 
+    
+    
+
     /*
      * Prints out the help menu. Goes through all verbs and verbDescriptions
      * printing a list of all commands the user can use.
      */
+
+     // newer code start
     public String printHelp() {
         String s1 = "";
         while (s1.length() < DISPLAY_WIDTH)
@@ -169,6 +174,8 @@ public class CommandSystem {
         String wah = String.format("\n\n%s\n%s\n%s\n", s1, s2, s1);
         verbs.forEach(v -> wah.concat(String.format("%-8s  %s", v, formatMenuString(verbDescription.get(verbs.indexOf(v))))));
         return wah;
+
+        // new code end
 
         // System.out.println("\n\n" + s1 + "\n" + s2 + "\n" + s1 + "\n");
         // for (String v : verbs) {
