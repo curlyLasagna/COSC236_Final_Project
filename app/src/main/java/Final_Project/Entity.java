@@ -31,8 +31,13 @@ class Scary extends Entity {
   int aggression;
   
   Scary() {
-    name = "kaonishi";
-    description = "Scary";
+    name = "kaonashi";
+    description = 
+      """
+      I've seen this monster before in the movies.
+      It dons a mask that resembles a face
+      It seems to be asleep. I wouldn't bother it
+      """;
     aggression = 0;
   }
 

@@ -50,19 +50,19 @@ public class CommandSystem {
               You can walk towards:
               """, 
 
-              state.getPlayer()
-                .getCurrentLocation()
-                .stringLocation()
-                .getKey(),
+              player
+              .getCurrentLocation()
+              .stringLocation()
+              .getKey(),
 
-              state.getPlayer()
-                .getCurrentLocation()
-                .getDesc());
+              player
+              .getCurrentLocation()
+              .getDesc());
 
             // Print neighboring locations
             state.getLocations()
-              .adjacentNodes(player.getCurrentLocation())
-              .forEach(l -> System.out.println(l.stringLocation().getKey()));
+            .adjacentNodes(player.getCurrentLocation())
+            .forEach(l -> System.out.println(l.stringLocation().getKey()));
         break;
         }
 
@@ -113,6 +113,8 @@ public class CommandSystem {
               
               for(Map.Entry<String, Location> x : s) 
                 if(noun.equals(x.getKey())) {
+                  // This should be handled in the player walk method but
+                  // we all spill spaghetti (code) once in a while
                   int tax = 
                     state.getPlayer().getToxicity() - state.getLocations()
                     .edgeValue(
@@ -125,7 +127,7 @@ public class CommandSystem {
                 }
 
               yield String.format(
-                  "You walked to %s%n%s%n", 
+                  "You walked to %s %n %s %n", 
                   state.getPlayer().currentLocation.stringLocation().getKey(),
                   state.getPlayer().currentLocation.getDesc()
                   );
@@ -151,12 +153,10 @@ public class CommandSystem {
 
     // When a command is a Verb followed by two nouns, this method controls the result.
     public void executeVerbNounNoun(String verb, String item, String supercalifragilisticexpialidocious) {
-      // Nullify the entities if they're dead and reomve them from description
-      // Need to find a way to differentiate the ojb being acted upon e.g. Item & Entity
       Player player = state.getPlayer();
-        player.itemActionsEntity.get(verb).accept(
-          player.itemList.get(item), 
-          player.currentLocation.getEntityInLocation()
+      player.itemActionsEntity.get(verb).accept(
+        player.itemList.get(item), 
+        player.currentLocation.getEntityInLocation()
       );
     }
 

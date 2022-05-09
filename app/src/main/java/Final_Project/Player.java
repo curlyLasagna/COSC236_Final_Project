@@ -4,20 +4,19 @@ import java.util.HashMap;
 import java.util.function.*;
 
 public class Player {
-  private int toxicity = 20;
+  private int toxicity;
   Location currentLocation;
   HashMap<String, Item> itemList; 
   HashMap<String, Consumer<? super Item> > itemActions;
-  HashMap<String, BiConsumer<? super Item, ? super Item> > itemActionsItem;
   HashMap<String, BiConsumer<? super Item, ? super Entity> > itemActionsEntity;
 
 public Player(Location location) {
 
+    toxicity = 50;
     // Load player with default items
     itemList = new HashMap<>();
     itemActions = new HashMap<>();
     itemActionsEntity = new HashMap<>();
-    itemActionsItem = new HashMap<>();
     itemList.put("lighter", new Lighter());
     itemList.put("wallet", new Wallet());
     itemList.put("stick", new Stick());
@@ -49,18 +48,47 @@ public Player(Location location) {
       toxicity -= 2;
     }));
 
-    // Add actions that to interact with entities 
+    // Add actions to interact with entities 
+    // Downcast hell
     itemActionsEntity.put("light", (i, e) -> {
+      if(!(i instanceof Lighter))
+        System.out.print("You can't do that with " + i.getName());
       // If entity is Scary
       if(e instanceof Scary) {
-        System.out.println(e.getName() + " backs away in surprise");
-        ((Scary)e).setAggression(((Scary)e).getAggression() + 25);
+        System.out.printf(
+            """
+            %s is trying to look for something... 
+            "Can you help me find my cigarettes?
+            asks %s
+            You just stand in fear as he continues to
+            look for his cigarettes
+            """,
+            e.getName(),
+            e.getName()
+            );
+        // Increase scary aggression
+        ((Scary)e).setAggression(((Scary)e).getAggression() + 1);
+
+        // He's had it
+        if(((Scary)e).getAggression() > 5) {
+          System.out.printf(
+              """
+              "You're a different type of nutjob.
+              This is getting weird. I'm outta here!"
+              %s picks himself up and leaves
+              He wasn't as scary as I thought he was...
+              Wait, it was just a homeless guy
+              """,
+              e.getName()
+              );
+          currentLocation.removeEntity();
+        }
       }
 
       // If entity is Normal
       else if(e instanceof Normal) {
         System.out.println(e.getName() + " runs away before you could approach it");
-
+        currentLocation.removeEntity();
       }
 
       else if(e instanceof Tripy) {
@@ -68,26 +96,67 @@ public Player(Location location) {
             """
             %s doesn't react\n", 
             It burns and shrinks to a distorted figure.
-            It produces an awful toxic smell.
+            It produces an awful, toxic smell.
             It wasn't a peacock. It was a plastic bag
             """,
             e.getName());
-        e = null;
+        currentLocation.removeEntity();
       }
       else
         System.out.println("You want me to light what?");
+
       });
 
-    // Add actions for items to interact with other items
-    itemActionsItem.put("light", (x, y) -> {
-      if(x instanceof Lighter && y instanceof Wallet) {
-        System.out.println("You watch in delight as you burn your wallet");
+    itemActionsEntity.put("hit", (i, e) -> {
+      if(!(i instanceof Stick))
+        System.out.print("You can't do that with " + i.getName());
+      else {
+
+      // If entity is Scary
+      if(e instanceof Scary) {
+        System.out.println(e.getName() + " tells you to knock it off");
+        ((Scary)e).setAggression(((Scary)e).getAggression() + 1);
+        if(((Scary)e).getAggression() > 4) {
+          System.out.printf(
+              """
+              "That hurts man, what the hell!
+              Have some decency, I'm not some animal"
+              %s leaves and you stand in silence in shame
+              It was just a homeless guy resting
+              """, e.getName());
+          currentLocation.removeEntity();
+        }
       }
 
-      else if(x instanceof Stick && y instanceof Lighter) {
+      // If entity is Normal
+      else if(e instanceof Normal) {
+        System.out.println(e.getName() + " runs away before you could approach it");
+      } else if(e instanceof Tripy) {
+        System.out.printf(
+            """
+            %s doesn't react, 
+            Its body conforms to the stick and wraps around it
+            You pull the stick back, in a fighting stance
+            It looks at you confusingly
+            """,
+            e.getName());
+        ((Tripy)e).integrity -= 1;
 
+        if(((Tripy)e).integrity <= 0) {
+          currentLocation.removeEntity();
+          System.out.println(
+              """
+              You've knocked the peacock off the tree
+              It flies away into the direction of the wind
+              It's so majestic it brought a tear to your eye
+              """
+              );
+        }
       }
-    });
+      else
+        System.out.println("I don't know what you want me to hit but you have issues");
+    }
+  });
 
     currentLocation = location;
     }
@@ -96,11 +165,8 @@ public Player(Location location) {
       this.toxicity = toxicity;
       if (getToxicity() < 0) {
         this.toxicity = 0;
-        System.out.println("Current toxcicity: " + getToxicity());
-        System.out.println("Sober");
-      } else {
-        System.out.println("Current toxcicity: " + getToxicity());
-        System.out.println("Not Sober");
+
+      System.out.println("Current toxicity: " + toxicity);
       }
     }
 
@@ -116,6 +182,10 @@ public Player(Location location) {
       currentLocation.getDesc();
     }
 
+    public void reduceToxicity(int toxicity) {
+      this.toxicity -= toxicity;
+    }
+
     public void check() {
       System.out.println("The items in your inventory include:");
       itemList.keySet().forEach(i -> System.out.println("- " + i));
@@ -127,7 +197,7 @@ public Player(Location location) {
 
     public void hitAir() {
       System.out.println("You hit at the air with your hands");
-      this.toxicity = toxicity - 2;
+      reduceToxicity(2);
     }
 
     public void walk(Location location) {

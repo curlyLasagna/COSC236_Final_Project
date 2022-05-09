@@ -127,8 +127,9 @@ public class App {
                     if (choice.equals("yes")) {
                         System.out.println(
                             """
-                            You walk into your house and get extremley tired.
-                            You can't be bothered to try and find your friends again
+                            You walk into your house exhausted.
+                            You can't be bothered to try and find your friends 
+                            after going through all of that
                             so you decide to call it a night and pass out on the couch.
 
                             GAME OVER
@@ -145,8 +146,6 @@ public class App {
                 }
             }
 
-            // Campfire location
-            state.locationList.get("campfire");
             // Gets input from the user in an array of strings that they typed in.
             String[] input = getCommand();
             if (input.length < 1) {

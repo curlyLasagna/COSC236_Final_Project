@@ -29,8 +29,8 @@ public class Location {
       return (hasEntity) ? 
         String.format(
         """
-        There's a %s
-        %s
+        There's a [%s]\n
+        %s\n
         """,
         entityInLocation.getName(),
         entityInLocation.getDesc()
@@ -49,6 +49,11 @@ public class Location {
 
     public void setHasEntity(boolean hasEntity) {
       this.hasEntity = hasEntity;
+    }
+
+    public void removeEntity() {
+      hasEntity = false;
+      entityInLocation = null;
     }
 
     public Map.Entry<String, Location> stringLocation() {

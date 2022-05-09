@@ -9,7 +9,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
-    id 'distribution'
+    // id 'distribution'
 }
 
 repositories {
@@ -41,4 +41,7 @@ jar {
     manifest {
         attributes 'Main-Class': 'Final_Project.App'
       }
+    from {
+      configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
   }
+}
