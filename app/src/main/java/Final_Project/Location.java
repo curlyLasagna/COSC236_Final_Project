@@ -29,8 +29,8 @@ public class Location {
       return (hasEntity) ? 
         String.format(
         """
-        There's a [%s]\n
-        %s\n
+        There's a [%s][nl]
+        %s[nl]
         """,
         entityInLocation.getName(),
         entityInLocation.getDesc()

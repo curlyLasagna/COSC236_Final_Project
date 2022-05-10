@@ -20,9 +20,16 @@ public Player(Location location) {
     itemList.put("lighter", new Lighter());
     itemList.put("wallet", new Wallet());
     itemList.put("stick", new Stick());
+    currentLocation = location;
+    setItemActions();
+    setItemEntityActions();
+    }
 
-    // Add actions to interact with item
-    itemActions.put("light", (i -> {
+    /* Adds a key value pair for itemActions Hashmap
+     * This was to split the code so I don't get lost 
+     */
+    private void setItemActions() {
+      itemActions.put("light", (i -> {
         System.out.println(i.getName() + " is being lit");
         ((Lighter)i).setGas(((Lighter)i).getGas() - 1);
         if (((Lighter)i).getGas() > 0) {
@@ -30,30 +37,36 @@ public Player(Location location) {
         } else {
           System.out.println("Out of gas");
         }
-    }));
+      }));
 
-    itemActions.put("throw", (i -> {
-      try {
-        itemList.remove(i.getName());
-        System.out.print("You threw " + i.getName());
-        i = null;
-      }
-      catch (NullPointerException npe) {
-        System.err.print("You threw it. Now you can't find it");
-      }
-    }));
+      itemActions.put("throw", (i -> {
+        try {
+          itemList.remove(i.getName());
+          System.out.print("You threw " + i.getName());
+          i = null;
+        }
+        catch (NullPointerException npe) {
+          System.err.print("You threw it. Now you can't find it");
+        }
+      }));
 
-    itemActions.put("hit", (i -> {
-      System.out.print("You hit the air with the " + i.getName());
-      toxicity -= 2;
-    }));
+      itemActions.put("hit", (i -> {
+        System.out.print("You hit the air with the " + i.getName());
+        toxicity -= 2;
+      }));
+    }
 
-    // Add actions to interact with entities 
+    /* Adds a key value pair for itemActionsEntity Hashmap
+     * This was to split the code so I don't get lost 
+     * I can do better than this
+     */
+    private void setItemEntityActions() {
     // Downcast hell
     itemActionsEntity.put("light", (i, e) -> {
       if(!(i instanceof Lighter))
         System.out.print("You can't do that with " + i.getName());
-      // If entity is Scary
+
+      // Scary entity
       if(e instanceof Scary) {
         System.out.printf(
             """
@@ -66,7 +79,7 @@ public Player(Location location) {
             e.getName(),
             e.getName()
             );
-        // Increase scary aggression
+        // Increase scary entity aggression
         ((Scary)e).setAggression(((Scary)e).getAggression() + 1);
 
         // He's had it
@@ -85,12 +98,13 @@ public Player(Location location) {
         }
       }
 
-      // If entity is Normal
+      // Normal entity
       else if(e instanceof Normal) {
         System.out.println(e.getName() + " runs away before you could approach it");
         currentLocation.removeEntity();
       }
 
+      // Tripy entity
       else if(e instanceof Tripy) {
         System.out.printf(
             """
@@ -110,62 +124,64 @@ public Player(Location location) {
     itemActionsEntity.put("hit", (i, e) -> {
       if(!(i instanceof Stick))
         System.out.print("You can't do that with " + i.getName());
-      else {
 
-      // If entity is Scary
-      if(e instanceof Scary) {
-        System.out.println(e.getName() + " tells you to knock it off");
-        ((Scary)e).setAggression(((Scary)e).getAggression() + 1);
-        if(((Scary)e).getAggression() > 4) {
+      else {
+        // Scary entity
+        if(e instanceof Scary) {
+          System.out.println(e.getName() + " tells you to knock it off");
+          ((Scary)e).setAggression(((Scary)e).getAggression() + 1);
+          if(((Scary)e).getAggression() > 2) {
+            System.out.printf(
+                """
+                "That hurts man, what the hell!
+                Have some compassion, I'm not some animal".
+                %s leaves and you stand in silence in shame.
+                It was just a homeless guy resting
+                """, e.getName());
+            currentLocation.removeEntity();
+          }
+        }
+
+        // Normal entity
+        else if(e instanceof Normal) {
+          System.out.println(e.getName() + " runs away before you could approach it");
+        } 
+
+        // Tripy entity
+        else if(e instanceof Tripy) {
           System.out.printf(
               """
-              "That hurts man, what the hell!
-              Have some decency, I'm not some animal"
-              %s leaves and you stand in silence in shame
-              It was just a homeless guy resting
-              """, e.getName());
-          currentLocation.removeEntity();
+              %s doesn't react, 
+              Its body conforms to the stick and wraps around it
+              You pull the stick back, in a fighting stance
+              It looks at you confusingly
+              """,
+              e.getName());
+          ((Tripy)e).integrity -= 1;
+
+          if(((Tripy)e).integrity < 0) {
+            currentLocation.removeEntity();
+            System.out.println(
+                """
+                You've knocked the peacock off the tree
+                It flies away into the direction of the wind
+                It's so majestic it brought a tear to your eye
+                But after looking at it a little more...
+                It said Y'allMart 
+                """
+                );
+            }
+          }
+        else
+          System.out.println("I don't know what you want me to hit but you have issues");
         }
-      }
-
-      // If entity is Normal
-      else if(e instanceof Normal) {
-        System.out.println(e.getName() + " runs away before you could approach it");
-      } else if(e instanceof Tripy) {
-        System.out.printf(
-            """
-            %s doesn't react, 
-            Its body conforms to the stick and wraps around it
-            You pull the stick back, in a fighting stance
-            It looks at you confusingly
-            """,
-            e.getName());
-        ((Tripy)e).integrity -= 1;
-
-        if(((Tripy)e).integrity <= 0) {
-          currentLocation.removeEntity();
-          System.out.println(
-              """
-              You've knocked the peacock off the tree
-              It flies away into the direction of the wind
-              It's so majestic it brought a tear to your eye
-              """
-              );
-        }
-      }
-      else
-        System.out.println("I don't know what you want me to hit but you have issues");
-    }
-  });
-
-    currentLocation = location;
-    }
+    });
+  }
 
     void setToxicity(int toxicity) {
       this.toxicity = toxicity;
       if (getToxicity() < 0) {
         this.toxicity = 0;
-
       System.out.println("Current toxicity: " + toxicity);
       }
     }

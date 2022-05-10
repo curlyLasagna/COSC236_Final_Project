@@ -61,7 +61,13 @@ class Normal extends Entity {
 
   Normal() {
     name = "dog";
-    description = "Is that my dog? Did I forget to close the door? Should I go after him?";
+    description = 
+      """
+      I think that's my dog. Why is it eating grass though?
+      I guess my dog got loose. 
+      Did I forget to close the door? 
+      Should I go after him?
+      """;
     fear = 0;
   }
 

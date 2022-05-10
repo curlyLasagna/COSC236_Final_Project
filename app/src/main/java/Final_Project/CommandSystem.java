@@ -116,18 +116,18 @@ public class CommandSystem {
                   // This should be handled in the player walk method but
                   // we all spill spaghetti (code) once in a while
                   int tax = 
-                    state.getPlayer().getToxicity() - state.getLocations()
+                    state.getLocations()
                     .edgeValue(
                         player.getCurrentLocation(), 
                         x.getValue())
                     .get();
 
-                  player.setToxicity(tax);
+                  player.reduceToxicity(tax);
                   player.walk(x.getValue());
                 }
 
               yield String.format(
-                  "You walked to %s %n %s %n", 
+                  "You walked to %s [nl] %s [nl]", 
                   state.getPlayer().currentLocation.stringLocation().getKey(),
                   state.getPlayer().currentLocation.getDesc()
                   );

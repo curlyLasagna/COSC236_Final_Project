@@ -57,10 +57,11 @@ public class GameState {
         locationList.put("home", 
             // Prompt the user if they want to go home
             new Location("Cabin", 
+              // Eh em, Katie wtf 
               """
               You totally just realized it's your house.
               
-              The door requires a swipe card to get in
+              The door requires a swipe card to get in 
               Do you want to go in? 
               """
               ));
@@ -72,7 +73,12 @@ public class GameState {
 
         locationList.put("opening", 
             new Location("Opening", 
-              "Empty field of beautiful flowing grass. Almost like an ocean"
+              """
+              Empty field of beautiful flowing grass. 
+              It almost looks like an ocean.
+              I should go for a swim
+              """,
+              new Normal()
               ));
 
         locationList.put("woods", 

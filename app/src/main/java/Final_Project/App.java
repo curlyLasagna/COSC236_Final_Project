@@ -47,7 +47,8 @@ public class App {
             Honestly, anything is better than being out here alone.
 
             Try to make it back to the campfire, or at least somewhere,
-            before your toxicity runs out. Certain movements and interactions
+            before your high levels off. You're here to party. 
+            Certain movements and interactions
             will lower your toxicity so be wise.
             """);
 
@@ -77,9 +78,12 @@ public class App {
                     You've walked around so much and it's been so long since
                     you lost your friends. The effects of those
                     substances from earlier have worn off, and now you're
-                    cold, alone, tired, and sober. Your head is pounding
-                    and you just want to sleep. You lie down and close your eyes.
-                    Goodnight.
+                    cold, alone, tired, and sober. 
+                    "That was a massive waste" you tell yourself.
+                    Your head is pounding.
+                    You just want to sleep. 
+                    You lie down and close your eyes.
+                    The sun is about to come up.
 
                     GAME OVER
                     """);
