@@ -34,7 +34,7 @@ class Scary extends Entity {
     name = "kaonashi";
     description = 
       """
-      I've seen this monster before in the movies.
+      I've seen this monster before in the movies.[nl]
       It dons a mask that resembles a face
       It seems to be asleep. I wouldn't bother it
       """;
@@ -82,7 +82,13 @@ class Tripy extends Entity {
 
   Tripy() {
     name = "peacock";
-    description = "A peacock sitting in a tree. It's majestic!";
+    description =
+    """
+    A peacock sitting in a tree. It's majestic!
+    It sways aggressively with the motion of the wind
+    It sure does have a peculiar shape
+    I could stare at it for hours on end
+    """;
     integrity = 5;
   }
 

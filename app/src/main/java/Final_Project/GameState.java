@@ -10,9 +10,6 @@ import com.google.common.graph.*;
 public class GameState {
     private CommandSystem commandSystem;
     private Player player;
-    /* I could possibly set the weight as a string that would 
-     * 
-     */
     private MutableValueGraph<Location, Integer> locations 
       = ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
     public HashMap <String, Location> locationList;
@@ -22,6 +19,8 @@ public class GameState {
         commandSystem = new CommandSystem(this);
         // Location nodes
         // Didn't have time to think of a better implementation
+        // Sets in Java is a mystery to me
+        // Why can't I retrieve a single value off of it?
         locationList = new HashMap<>();
         // Create locations with their respective entities
         locationList.put("river", 
@@ -35,7 +34,7 @@ public class GameState {
         locationList.put("start", 
             new Location("Start",               
               """
-              This is where I last saw my friends. I need to find them
+              This is where I last saw my friends. I need to find them.
               There's a cliff to the north. I don't even want to try climbing up that
               A trail that lead towards the road in the south looks eerie
               A river to my right looks like a fun time
@@ -45,22 +44,26 @@ public class GameState {
 
         locationList.put("tree", 
             new Location("Tree", 
-              "You see a fallen tree. A majestic",
+              """
+              A lone tall tree stands at the center.
+              It looks menacing against the moonlight
+              """,
               new Tripy()
               ));
 
         locationList.put("campfire", 
             new Location("Campfire", 
-              "You're in a campfire surrounded by your friends. You're safe now"
+              """
+              You're in a campfire surrounded by your friends. 
+              You're safe now. 
+              """
               ));
 
         locationList.put("home", 
             // Prompt the user if they want to go home
             new Location("Cabin", 
-              // Eh em, Katie wtf 
               """
               You totally just realized it's your house.
-              
               The door requires a swipe card to get in 
               Do you want to go in? 
               """
@@ -93,7 +96,7 @@ public class GameState {
 
         // Add location as nodes in the graph
         locationList.forEach((k, v) -> locations.addNode(v.stringLocation().getValue()));
-        // I need to refactor stringLocation to something better but... nah
+        // I need to change stringLocation to something more intuitive but... nah
         locationList.forEach((k, v) -> commandSystem.addNoun(v.stringLocation().getKey()));
         
         /* Yeah, I know, I could refactor this to be a tad bit tidier but 
@@ -123,6 +126,7 @@ public class GameState {
         locations.nodes().forEach(l -> commandSystem.addNoun(l.getEntityInLocation().getName()));
 
         // Adds commands
+        // @Author Katie Lim
         commandSystem.addVerb("look", "look, look <item>, look <entity>");
         commandSystem.addVerb("walk", "walk <location>");
         commandSystem.addVerb("hit", "hit, hit <item> <entity>");

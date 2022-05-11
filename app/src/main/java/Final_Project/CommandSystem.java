@@ -153,15 +153,15 @@ public class CommandSystem {
 
     // When a command is a Verb followed by two nouns, this method controls the result.
     public void executeVerbNounNoun(String verb, String item, String supercalifragilisticexpialidocious) {
+      // Nothing to see here... lol
       Player player = state.getPlayer();
       player.itemActionsEntity.get(verb).accept(
-        player.itemList.get(item), 
+        player.itemList.get(item),
         player.currentLocation.getEntityInLocation()
       );
     }
 
-    /*
-     * Prints out the help menu. Goes through all verbs and verbDescriptions
+    /* Prints out the help menu. Goes through all verbs and verbDescriptions
      * printing a list of all commands the user can use.
      */
     public void printHelp() {
@@ -178,8 +178,8 @@ public class CommandSystem {
         }
 
         System.out.println("\n\n" + s1 + "\n" + s2 + "\n" + s1 + "\n");
-                for (String v : verbs) 
-                    System.out.printf("%-8s  %s", v, formatMenuString(verbDescription.get(verbs.indexOf(v))));
+          for (String v : verbs) 
+            System.out.printf("%-8s  %s", v, formatMenuString(verbDescription.get(verbs.indexOf(v))));
     }
 
     // Allows the client code to check to see if a verb is in the game.

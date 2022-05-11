@@ -27,11 +27,12 @@ public Player(Location location) {
 
     /* Adds a key value pair for itemActions Hashmap
      * This was to split the code so I don't get lost 
+     * I can smell this code. It reeks
      */
     private void setItemActions() {
       itemActions.put("light", (i -> {
         System.out.println(i.getName() + " is being lit");
-        ((Lighter)i).setGas(((Lighter)i).getGas() - 1);
+        ((Lighter)i).useGas(1);
         if (((Lighter)i).getGas() > 0) {
           System.out.println("Current gas: " + ((Lighter)i).getGas());
         } else {
@@ -60,6 +61,7 @@ public Player(Location location) {
      * This was to split the code so I don't get lost 
      * I can do better than this
      */
+
     private void setItemEntityActions() {
     // Downcast hell
     itemActionsEntity.put("light", (i, e) -> {
@@ -79,6 +81,8 @@ public Player(Location location) {
             e.getName(),
             e.getName()
             );
+        ((Lighter)i).useGas(1);
+        toxicity -= 3;
         // Increase scary entity aggression
         ((Scary)e).setAggression(((Scary)e).getAggression() + 1);
 
@@ -108,7 +112,7 @@ public Player(Location location) {
       else if(e instanceof Tripy) {
         System.out.printf(
             """
-            %s doesn't react\n", 
+            %s doesn't react, 
             It burns and shrinks to a distorted figure.
             It produces an awful, toxic smell.
             It wasn't a peacock. It was a plastic bag
@@ -130,6 +134,7 @@ public Player(Location location) {
         if(e instanceof Scary) {
           System.out.println(e.getName() + " tells you to knock it off");
           ((Scary)e).setAggression(((Scary)e).getAggression() + 1);
+          ((Stick)i).useStick(1);
           if(((Scary)e).getAggression() > 2) {
             System.out.printf(
                 """
@@ -145,6 +150,7 @@ public Player(Location location) {
         // Normal entity
         else if(e instanceof Normal) {
           System.out.println(e.getName() + " runs away before you could approach it");
+          currentLocation.removeEntity();
         } 
 
         // Tripy entity
