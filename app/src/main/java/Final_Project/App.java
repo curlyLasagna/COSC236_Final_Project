@@ -30,6 +30,7 @@ public class App {
         boolean gameRunning = true;
 
         // Starting info
+        // @Author Katie Lim
         System.out.println(
             """
             You started the night off with your friends around a campfire.
@@ -52,7 +53,6 @@ public class App {
             will lower your toxicity so be wise.
             """);
 
-
         // The main game loop.
         while (gameRunning) {
 
@@ -72,6 +72,7 @@ public class App {
             }
 
             // ending for toxicity being 0 and sober
+            // You can put this conidtion some place else btw
             if (state.getPlayer().getToxicity() == 0) { // if player is sober, toxicity == 0
                 System.out.println(
                     """
@@ -205,7 +206,6 @@ public class App {
                 }
             }
         }
-
     }
 
     // Gets input from the user

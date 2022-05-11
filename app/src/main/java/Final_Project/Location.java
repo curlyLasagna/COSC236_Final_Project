@@ -30,7 +30,7 @@ public class Location {
         String.format(
         """
         There's a [%s][nl]
-        %s[nl]
+        %s
         """,
         entityInLocation.getName(),
         entityInLocation.getDesc()
