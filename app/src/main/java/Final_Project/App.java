@@ -93,62 +93,31 @@ public class App {
 
             // bad ending with 7-11 store
             if (state.getPlayer().getCurrentLocation().equals(state.locationList.get("conbini"))) { // if player location is store
-                System.out.print("Do you want to enter? (yes or no) > ");
-                String choice = "";
-                // player chooses if they want to enter the store or not
-                while(!choice.equals("yes") || !choice.equals("no")) {
-                    choice = in.nextLine();
-                    choice = choice.toLowerCase();
-                    if (choice.equals("yes")) {
-                        System.out.println(
-                            """
-                            Oh no. Coming to 7-11 was the worst decision you could have made.
-                            The are cops in here, and they immediatley recognize you.
-                            Turns out you're a wanted crimminal for a multitide of reasons and
-                            they arrest you. What a horrible way to end the night.
-            
-                            GAME OVER
-                            """
-                        );
-                        System.exit(0);
-                    } else if (choice.equals("no")) {
-                        System.out.println("You decide to wander around more.");
-                        break;
-                    } else {
-                        System.out.println("Invalid choice. Yes or no?");
-                        System.out.print("Do you want to enter? > ");
-                    }
-                }
+                enterPrompt(
+                    """
+                    Oh no. Coming to 7-11 was the worst decision you could have made.
+                    The are cops in here, and they immediatley recognize you.
+                    Turns out you're a wanted crimminal for a multitide of reasons and
+                    they arrest you. What a horrible way to end the night.
+        `
+                    GAME OVER
+                    """
+
+                );
             }
 
             // neutral ending at players home
             if (state.getPlayer().getCurrentLocation().equals(state.locationList.get("home"))) { // if player location is home
-                System.out.print("Do you want to enter? (yes or no) > ");
-                String choice = "";
-                // player chooses if they want to enter the home or not
-                while(!choice.equals("yes") || !choice.equals("no")) {
-                    choice = in.nextLine();
-                    choice = choice.toLowerCase();
-                    if (choice.equals("yes")) {
-                        System.out.println(
-                            """
-                            You walk into your house exhausted.
-                            You can't be bothered to try and find your friends 
-                            after going through all of that
-                            so you decide to call it a night and pass out on the couch.
+                enterPrompt(
+                    """
+                    You walk into your house exhausted.
+                    You can't be bothered to try and find your friends 
+                    after going through all of that
+                    so you decide to call it a night and pass out on the couch.
 
-                            GAME OVER
-                            """
-                        );
-                        System.exit(0);
-                    } else if (choice.equals("no")) {
-                        System.out.println("You decide to wander around more.");
-                        break;
-                    } else {
-                        System.out.println("Invalid choice. Yes or no?");
-                        System.out.print("Do you want to enter? > ");
-                    }
-                }
+                    GAME OVER
+                    """
+                );
             }
 
             // Gets input from the user in an array of strings that they typed in.
@@ -224,6 +193,26 @@ public class App {
     // Used to let the user know that what they typed as a command is not understood.
     public static void unknownCommand(String input) {
       System.out.println("I don't understand '" + input + "'. Type ? for help.");
+    }
+
+    // Used to ask the player if they want to enter a certain location
+    public static void enterPrompt(String ending) {
+        System.out.print("Do you want to enter? (yes or no) > ");
+        String choice = "";
+        while(!choice.equals("yes") || !choice.equals("no")) {
+            choice = in.nextLine();
+            choice = choice.toLowerCase();
+            if (choice.equals("yes")) {
+                System.out.println(ending);
+                System.exit(0);
+            } else if (choice.equals("no")) {
+                System.out.println("You decide to wander around more.");
+                break;
+            } else {
+                System.out.println("Invalid choice. Yes or no?");
+                System.out.print("Do you want to enter? > ");
+            }
+        }
     }
 
 }
