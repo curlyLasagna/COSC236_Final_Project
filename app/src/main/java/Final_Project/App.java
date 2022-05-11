@@ -195,6 +195,7 @@ public class App {
       System.out.println("I don't understand '" + input + "'. Type ? for help.");
     }
 
+    // Used to ask the player if they want to enter a certain location
     public static void enterPrompt(String ending) {
         System.out.print("Do you want to enter? (yes or no) > ");
         String choice = "";
