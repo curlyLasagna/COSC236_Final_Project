@@ -34,9 +34,9 @@ class Scary extends Entity {
     name = "kaonashi";
     description = 
       """
-      I've seen this monster before in the movies.[nl]
-      It dons a mask that resembles a face
-      It seems to be asleep. I wouldn't bother it
+      I've seen this monster before in the movies.
+      It dons a mask that resembles a face because it doesn't have a face.
+      I better mind my own business. Better not bother it.
       """;
     aggression = 0;
   }
@@ -52,6 +52,10 @@ class Scary extends Entity {
 
   public int getAggression() {
     return aggression;
+  }
+
+  public void getMad(int aggression) {
+    this.aggression += aggression;
   }
 
 }
@@ -89,7 +93,7 @@ class Tripy extends Entity {
     It sure does have a peculiar shape
     I could stare at it for hours on end
     """;
-    integrity = 5;
+    integrity = 3;
   }
 
   Tripy(String name, String description, int integrity) {

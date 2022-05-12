@@ -127,7 +127,7 @@ public class CommandSystem {
                 }
 
               yield String.format(
-                  "You walked to %s [nl] %s [nl]", 
+                  "You walked to %s%n%s%n ", 
                   state.getPlayer().currentLocation.stringLocation().getKey(),
                   state.getPlayer().currentLocation.getDesc()
                   );
@@ -148,17 +148,22 @@ public class CommandSystem {
               yield "";
             } 
         };
-      System.out.println(formatStringToScreenWidth(resultString));
+      System.out.println(resultString);
     }
 
     // When a command is a Verb followed by two nouns, this method controls the result.
     public void executeVerbNounNoun(String verb, String item, String supercalifragilisticexpialidocious) {
       // Nothing to see here... lol
       Player player = state.getPlayer();
-      player.itemActionsEntity.get(verb).accept(
-        player.itemList.get(item),
-        player.currentLocation.getEntityInLocation()
-      );
+      try {
+        player.itemActionsEntity.get(verb).accept(
+          player.itemList.get(item),
+          player.currentLocation.getEntityInLocation()
+        );
+      }
+      catch(NullPointerException npe) {
+        System.out.println("Not a valid command");
+      }
     }
 
     /* Prints out the help menu. Goes through all verbs and verbDescriptions

@@ -30,10 +30,11 @@ public Player(Location location) {
      * I can smell this code. It reeks
      */
     private void setItemActions() {
+      try {
       itemActions.put("light", (i -> {
-        System.out.println(i.getName() + " is being lit");
         ((Lighter)i).useGas(1);
         if (((Lighter)i).getGas() > 0) {
+          System.out.println(i.getName() + " is being lit");
           System.out.println("Current gas: " + ((Lighter)i).getGas());
         } else {
           System.out.println("Out of gas");
@@ -55,6 +56,11 @@ public Player(Location location) {
         System.out.print("You hit the air with the " + i.getName());
         toxicity -= 2;
       }));
+
+      }
+      catch (NullPointerException npe) {
+        System.out.println("Nope");
+      }
     }
 
     /* Adds a key value pair for itemActionsEntity Hashmap
@@ -63,6 +69,7 @@ public Player(Location location) {
      */
 
     private void setItemEntityActions() {
+    try {
     // Downcast hell
     itemActionsEntity.put("light", (i, e) -> {
       if(!(i instanceof Lighter))
@@ -70,10 +77,17 @@ public Player(Location location) {
 
       // Scary entity
       if(e instanceof Scary) {
+        if(((Lighter)i).getGas() < 0) {
+          System.out.println(
+              """
+              Your lighter got no light no more bud.
+              So can you uhhh... leave me alone?
+              """);
+        }
         System.out.printf(
             """
             %s is trying to look for something... 
-            "Can you help me find my cigarettes?
+            "Can you help me find my cigarettes?"
             asks %s
             You just stand in fear as he continues to
             look for his cigarettes
@@ -84,14 +98,14 @@ public Player(Location location) {
         ((Lighter)i).useGas(1);
         toxicity -= 3;
         // Increase scary entity aggression
-        ((Scary)e).setAggression(((Scary)e).getAggression() + 1);
+        ((Scary)e).getMad(1);
 
         // He's had it
-        if(((Scary)e).getAggression() > 5) {
+        if(((Scary)e).getAggression() > 2) {
           System.out.printf(
               """
-              "You're a different type of nutjob.
-              This is getting weird. I'm outta here!"
+              "Wait a damn minute, I gotta find my cigarettes.
+              Let me grab some at the store, I be right back"
               %s picks himself up and leaves
               He wasn't as scary as I thought he was...
               Wait, it was just a homeless guy
@@ -133,7 +147,7 @@ public Player(Location location) {
         // Scary entity
         if(e instanceof Scary) {
           System.out.println(e.getName() + " tells you to knock it off");
-          ((Scary)e).setAggression(((Scary)e).getAggression() + 1);
+          ((Scary)e).getMad(1);
           ((Stick)i).useStick(1);
           if(((Scary)e).getAggression() > 2) {
             System.out.printf(
@@ -165,6 +179,8 @@ public Player(Location location) {
               e.getName());
           ((Tripy)e).integrity -= 1;
 
+          reduceToxicity(5);
+
           if(((Tripy)e).integrity < 0) {
             currentLocation.removeEntity();
             System.out.println(
@@ -182,6 +198,30 @@ public Player(Location location) {
           System.out.println("I don't know what you want me to hit but you have issues");
         }
     });
+
+    itemActionsEntity.put("throw", (i, e) -> {
+      // I'll just leave it at this. This is just tedious.
+      // I'll need to find an easier way of doing this
+      if(e instanceof Tripy) {
+        System.out.printf(
+            """
+            You threw your wallet at the %s.
+            It doesn't react as your wallet flies past it
+            You've lost your wallet. Good job mate.
+            """
+            ,
+            e.getName()
+            );
+        itemList.remove(i.getName());
+        i = null;
+        reduceToxicity(3);
+      }
+    });
+
+    }
+    catch(NullPointerException npe) {
+      System.out.println("Nope");
+    }
   }
 
     void setToxicity(int toxicity) {
@@ -211,10 +251,6 @@ public Player(Location location) {
     public void check() {
       System.out.println("The items in your inventory include:");
       itemList.keySet().forEach(i -> System.out.println("- " + i));
-    }
-
-    public void look(Entity entity) {
-      currentLocation.getEntityInLocation().getDesc();
     }
 
     public void hitAir() {

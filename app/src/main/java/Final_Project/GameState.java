@@ -16,6 +16,94 @@ public class GameState {
     public static int DISPLAY_WIDTH = 80;
 
     public GameState() {
+      // Last minute additions.
+      // Don't mind the inconsistent code format
+      // Didn't feel like using a formatter
+      HashMap <String, String> asciiArt = new HashMap<>();
+      asciiArt.put("camp", 
+      """
+              ______
+             /     /\\
+            /     /  \\
+           /_____/----\\_    (  
+          \"     \"          ).  
+         _ ___          o (:') o   
+        (@))_))        o ~/~~\\~ o   
+                        o  o  o
+      """
+          );
+      asciiArt.put("tree", 
+          """
+                 .
+                                             .         ;  
+                .              .              ;%     ;;   
+                  ,           ,                :;%  %;   
+                   :         ;                   :;%;'     .,   
+          ,.        %;     %;            ;        %;'    ,;
+            ;       ;%;  %%;        ,     %;    ;%;    ,%'
+             %;       %;%;      ,  ;       %;  ;%;   ,%;' 
+              ;%;      %;        ;%;        % ;%;  ,%;'
+               `%;.     ;%;     %;'         `;%%;.%;'
+                `:;%.    ;%%. %@;        %; ;@%;%'
+                   `:%;.  :;bd%;          %;@%;'
+                     `@%:.  :;%.         ;@@%;'   
+                       `@%.  `;@%.      ;@@%;         
+                         `@%%. `@%%    ;@@%;        
+                           ;@%. :@%%  %@@%;       
+                             %@bd%%%bd%%:;     
+                               #@%%%%%:;;
+                               %@@%%%::;
+                               %@@@%(o);  . '         
+                               %@@@o%;:(.,'         
+                           `.. %@@@o%::;         
+                              `)@@@o%::;         
+                               %@@(o)::;        
+                              .%@@@@%::;         
+                              ;%@@@@%::;.          
+                             ;%@@@@%%:;;;. 
+                         ...;%@@@@@%%:;;;;,..
+          """);
+      asciiArt.put("cabin", 
+          """
+                          (   )
+                          (    )
+                           (    )
+                          (    )
+                            )  )
+                           (  (                  /\\
+                            (_)                 /  \\  /\\
+                    ________[_]________      /\\/    \\/  \\
+           /\\      /\\        ______    \\    /   /\\/\\  /\\/\\
+          /  \\    //_\\       \\    /\\    \\  /\\/\\/    \\/    \\
+   /\\    / /\\/\\  //___\\       \\__/  \\    \\/
+  /  \\  /\\/    \\//_____\\       \\ |[]|     \\
+ /\\/\\/\\/       //_______\\       \\|__|      \\
+/      \\      /XXXXXXXXXX\\                  \\
+        \\    /_I_II  I__I_\\__________________\\
+               I_I|  I__I_____[]_|_[]_____I
+               I_II  I__I_____[]_|_[]_____I
+               I II__I  I     XXXXXXX     I
+            ~~~~~"   "~~~~~~~~~~~~~~~~~~~~~~~~
+          """);
+      asciiArt.put("woods", """
+ '.,
+        'b      *
+         '$    #.
+          $:   #:
+          *#  @):
+          :@,@):   ,.**:'
+,         :@@*: ..**'
+ '#o.    .:(@'.@*"'
+    'bq,..:,@@*'   ,*
+    ,p$q8,:@)'  .p*'
+   '    '@@Pp@@*'
+         Y7'.'
+        :@):.
+       .:@:'.
+     .::(@:.
+        """);
+
+
         commandSystem = new CommandSystem(this);
         // Location nodes
         // Didn't have time to think of a better implementation
@@ -44,10 +132,13 @@ public class GameState {
 
         locationList.put("tree", 
             new Location("Tree", 
-              """
-              A lone tall tree stands at the center.
-              It looks menacing against the moonlight
-              """,
+              String.format(
+                """
+                %s
+                A lone tall tree stands at the center.
+                It looks menacing against the moonlight
+                """,
+              asciiArt.get("tree")),
               new Tripy()
               ));
 
@@ -71,7 +162,13 @@ public class GameState {
 
         locationList.put("road", 
             new Location("Road", 
-              "It's a road. It's empty and dark"
+              """
+              It's a road. It's empty and dark
+              Looks like there's a store down the road
+              Would be nice to surprise the bois with some brewskis.
+              There's some homes to the other side but those HOA
+              Karen's would be in my case the second I step foot
+              """
               ));
 
         locationList.put("opening", 

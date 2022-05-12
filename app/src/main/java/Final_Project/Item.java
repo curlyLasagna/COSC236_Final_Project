@@ -51,8 +51,9 @@ class Lighter extends Item {
   void useGas(int gas) {
     if (this.gas > 0) 
       this.gas -= gas;
-    else 
+    else {
       System.out.println(super.getName() + " is out of gas");
+    }
   }
 }
 
@@ -104,7 +105,11 @@ class Stick extends Item {
   }
 
   void useStick(int hit) {
-    durability -= hit;
+    if(durability > 0) 
+      durability -= hit;
+    else {
+      System.out.println("Welp, stick broke in half");
+    }
   }
 }
 

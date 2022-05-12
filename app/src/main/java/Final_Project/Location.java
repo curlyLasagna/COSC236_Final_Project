@@ -27,14 +27,16 @@ public class Location {
 
     public String getDesc() {
       return (hasEntity) ? 
+        description.concat(
         String.format(
         """
-        There's a [%s][nl]
+        %nThere's a [%s]
         %s
         """,
         entityInLocation.getName(),
         entityInLocation.getDesc()
           ) 
+        )
         : 
         description ;
     }
