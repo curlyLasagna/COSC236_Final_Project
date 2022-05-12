@@ -85,7 +85,7 @@ class Wallet extends Item {
     String cardList = "Cards in wallet: ";
     // Eh em, Katie, you were supposed to list each cards description
     for (int i = 0; i < cards.size(); i++ ) {
-      cardList += cards.get(i).getName() + " ";
+      cardList += cards.get(i).getName() + ": " + cards.get(i).getDescription();
     }
     return cardList;
   }

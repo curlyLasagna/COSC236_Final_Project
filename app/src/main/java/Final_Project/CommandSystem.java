@@ -82,9 +82,22 @@ public class CommandSystem {
           player.itemList.keySet().forEach(i -> System.out.println("- " + i));
           break;
         }
-        case "?":
+
+        case "light": {
+          System.out.println("You must use ligter to light.");
+          break;
+        }
+
+        case "throw": {
+          System.out.println("Throw what?");
+          break;
+        }
+
+        case "?": {
           printHelp();
         break;
+        }
+        
         default: {
           // player.itemActions.get(verb);
         }

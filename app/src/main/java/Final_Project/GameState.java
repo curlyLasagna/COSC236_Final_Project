@@ -64,7 +64,6 @@ public class GameState {
             new Location("Cabin", 
               """
               You totally just realized it's your house.
-              The door requires a swipe card to get in 
               Do you want to go in? 
               """
               ));
@@ -132,7 +131,6 @@ public class GameState {
         commandSystem.addVerb("hit", "hit, hit <item> <entity>");
         commandSystem.addVerb("throw", "throw <item>");
         commandSystem.addVerb("light", "light <item>, light <item> <entity>");
-        commandSystem.addVerb("use", "use <item> <entity>");
     }
 
     Player getPlayer() {
