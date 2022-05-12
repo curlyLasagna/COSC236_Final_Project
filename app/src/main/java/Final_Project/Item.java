@@ -83,10 +83,10 @@ class Wallet extends Item {
   @Override
   public String getDescription() {
     System.out.println(super.getDescription());
-    String cardList = "Cards in wallet: ";
+    String cardList = "Cards in wallet: \n";
     // Eh em, Katie, you were supposed to list each cards description
     for (int i = 0; i < cards.size(); i++ ) {
-      cardList += cards.get(i).getName() + ": " + cards.get(i).getDescription();
+      cardList += cards.get(i).getName() + ": " + cards.get(i).getDescription() + '\n';
     }
     return cardList;
   }

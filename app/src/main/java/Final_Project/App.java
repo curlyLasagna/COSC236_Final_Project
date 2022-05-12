@@ -94,15 +94,42 @@ public class App {
             // bad ending with 7-11 store
             if (state.getPlayer().getCurrentLocation().equals(state.locationList.get("conbini"))) { // if player location is store
                 enterPrompt(
-                    """
-                    Oh no. Coming to 7-11 was the worst decision you could have made.
-                    The are cops in here, and they immediatley recognize you.
-                    Turns out you're a wanted crimminal for a multitide of reasons and
-                    they arrest you. What a horrible way to end the night.
-        `
-                    GAME OVER
-                    """
-
+              """
+              Oh no. Coming to 7-11 was the worst decision you could have made.
+              The are cops in here, and they immediatley recognize you.
+              Turns out you're a wanted crimminal for a multitide of reasons and
+              they arrest you. What a horrible way to end the night.
+                     _.---._
+               .-' ((O)) '-.
+                \\ _.\\_/._ /
+                 /..___..\\
+                 ;-.___.-;
+                (| e ) e |)     .;.
+                 \\  /_   /      ||||
+                 _\\__-__/_    (\\|'-|
+               /` / \\V/ \\ `\\   \\ )/
+              /   \\  Y  /   \\  /=/
+             /  |  \\ | / {}  \\/ /
+            /  /|   `|'   |\\   /
+            \\  \\|    |.   | \\_/
+             \\ /\\    |.   |
+              \\_/\\   |.   |
+              /)_/   |    |
+             // ',__.'.__,'
+            //   |   |   |
+           //    |   |   |
+          (/     |   |   |
+                 |   |   |
+                 | _ | _ |
+                 |   |   |
+                 |   |   |
+                 |   |   |
+                 |___|___|
+                 /  J L  \\
+                (__/   \\__)
+  
+              GAME OVER
+              """
                 );
             }
 
