@@ -5,6 +5,7 @@ import java.util.function.*;
 
 public class Player {
   private int toxicity;
+
   Location currentLocation;
   HashMap<String, Item> itemList; 
   HashMap<String, Consumer<? super Item> > itemActions;
@@ -158,7 +159,7 @@ public Player(Location location) {
                 It was just a homeless guy resting
                 """, e.getName());
             currentLocation.removeEntity();
-          }
+                }
         }
 
         // Normal entity

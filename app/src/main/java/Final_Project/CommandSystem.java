@@ -105,7 +105,7 @@ public class CommandSystem {
     }
   }
 
-    // When a command is a Verb followed by a noun, this method controls the result.
+    // When a command is a verb followed by a noun, this method controls the result.
     public <T> void executeVerbNoun(String verb, String noun) {
         Player player = state.getPlayer();
         String resultString = "";
